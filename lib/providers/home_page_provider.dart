@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:recipes/models/category_model.dart';
 import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/models/response_model.dart';
 import 'package:recipes/network/network_manager.dart';
+import 'package:recipes/providers/base_provider.dart';
 
-class HomePageProvider extends ChangeNotifier{
+class HomePageProvider extends BaseProvider {
   List<String> categories = [];
   List<Meal> meals = [];
 
@@ -26,7 +26,6 @@ class HomePageProvider extends ChangeNotifier{
   void getMealsByCategory(String category) async {
 
     if (currCategory == category){
-      print("already page");
       return;
     }
     currCategory = category;
@@ -43,9 +42,4 @@ class HomePageProvider extends ChangeNotifier{
   }
 
 
-  void failureCase(ResponseModel result) {
-      final res = result as ErrorResponseModel;
-      print("Failure ----- ");
-      print(res.message);
-  }
 }

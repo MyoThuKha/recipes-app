@@ -78,7 +78,8 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
-                            context.push("/detail");
+                            // context.push("/detail");
+                            context.push(Uri(path: '/detail/${model.meals[index].idMeal}').toString());
                           },
                           child: Container(
                             decoration: BoxDecoration(
