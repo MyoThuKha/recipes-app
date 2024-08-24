@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/pages/detail_page.dart';
-import 'package:recipes/pages/home_page.dart';
+import 'package:recipes/pages/home/home_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 
@@ -23,7 +23,27 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: router,
         title: 'Flutter Demo',
-        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true, fontFamily: "HelveticaNeue"),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: "HelveticaNeue",
+            textTheme: const TextTheme(
+              titleMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+              displayLarge: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 40,
+                fontFamily: "Fearless",
+              ),
+              bodyMedium: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                height: 1.5,
+              ),
+          )
+        ),
         // home: const HomePage()
       ),
     );

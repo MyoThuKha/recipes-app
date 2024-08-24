@@ -4,7 +4,8 @@ import 'package:recipes/animations/opacity_animation.dart';
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? leading;
-  const AppBarWidget({super.key, required this.title, this.leading});
+  final List<Widget>? actions;
+  const AppBarWidget({super.key, required this.title, this.leading,this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -12,20 +13,17 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       title: OpacityAnimation(
         child: Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 30,
-          ),
+          style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
-      leading: leading,
-      elevation: 0,
       centerTitle: false,
-      toolbarHeight: 140,
-      backgroundColor: Colors.transparent,
+      toolbarHeight: 100,
+      forceMaterialTransparency: true,
+      leading: leading,
+      actions: actions,
     );
   }
   
   @override
-  Size get preferredSize => const Size.fromHeight(140);
+  Size get preferredSize => const Size.fromHeight(100);
 }
