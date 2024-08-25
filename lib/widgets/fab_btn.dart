@@ -3,17 +3,15 @@ import 'package:recipes/styles/colors.dart';
 
 class FabButton extends StatefulWidget {
   final List<FabItem> items;
+  final dynamic current;
 
-  const FabButton({super.key, required this.items});
+  const FabButton({super.key, required this.items, this.current});
 
   @override
   State<FabButton> createState() => _FabButtonState();
 }
 
 class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMixin {
-
-  late FabItem currentItem;
-
   late double fullItemSize;
   late double totalHeight;
 
@@ -21,18 +19,19 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
   late Animation _heightAnimation;
   late CurvedAnimation _bounce;
 
+  late FabItem currentItem;
+  List<FabItem> choiceItems = [];
+
   bool isOpen = false;
 
   @override
   void initState() {
-    currentItem = widget.items[0];
     initCalculation();
     initAnimation();
     super.initState();
   }
 
-
-  void initCalculation(){
+  void initCalculation() {
     fullItemSize = 80;
     totalHeight = (80 * widget.items.length) + 10;
   }
@@ -59,7 +58,6 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
     super.dispose();
   }
 
-
   void toggleAnimation() {
     if (!isOpen) {
       _controller.forward();
@@ -68,16 +66,22 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+
+    /* 
+    can improve performance by reducing double looping appear in here. but considering app bar 
+    items not exceeding more than 5, I will leave it as it is for now.
+    */
+    currentItem = widget.items.firstWhere((each) => each.value == widget.current);
+    choiceItems = widget.items.where((each) => each.value != widget.current).toList();
+
     return AnimatedBuilder(
         animation: _controller,
         builder: (context, _) {
           return Container(
             width: fullItemSize,
             height: _heightAnimation.value,
-            // height: 170,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(100),
@@ -89,27 +93,22 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
                 Stack(
                   alignment: Alignment.center,
                   children: List.generate(
-                    widget.items.length,
+                    choiceItems.length,
                     (index) {
-                      final positionAnimation = Tween<double>(begin: 0, end: (index * 80) + (index * 20)).animate(_bounce);
+                      final newIndex = index + 1;
+                      final positionAnimation = Tween<double>(begin: 0, end: (newIndex * 80) + (newIndex * 20)).animate(_bounce);
                       return Positioned(
                         bottom: positionAnimation.value,
                         child: GestureDetector(
                           onTap: () async {
                             toggleAnimation();
                             await Future.delayed(const Duration(milliseconds: 500));
-                            final temporaryItem = currentItem;
-                            setState(() {
-                              currentItem = widget.items[index];
-                              widget.items[index] = temporaryItem;
-                            });
-
-                            currentItem.onClick();
+                            choiceItems[index].onClick();
                           },
                           child: CircleAvatar(
                             radius: 32,
                             backgroundColor: fabGrayColor,
-                            child: widget.items[index].child,
+                            child: choiceItems[index].child,
                           ),
                         ),
                       );
@@ -117,9 +116,7 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    toggleAnimation();
-                  },
+                  onTap: toggleAnimation,
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.black,
@@ -135,7 +132,8 @@ class _FabButtonState extends State<FabButton> with SingleTickerProviderStateMix
 
 class FabItem {
   final Widget child;
+  final Object value;
   final VoidCallback onClick;
 
-  FabItem({required this.child, required this.onClick});
+  FabItem({required this.value, required this.child, required this.onClick});
 }

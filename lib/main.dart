@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/pages/detail_page.dart';
+import 'package:recipes/pages/detail/detail_page.dart';
 import 'package:recipes/pages/home/home_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/providers/home_page_provider.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               ),
               displayLarge: TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 40,
+                fontSize: 35,
                 fontFamily: "Fearless",
               ),
               bodyMedium: TextStyle(
