@@ -13,6 +13,7 @@ enum Content { instructions, ingredients }
 
 class DetailPage extends StatefulWidget {
   static const routeName = "/detail";
+  //TODO handle no id for meal
   final String mealId;
   const DetailPage({super.key, required this.mealId});
 
@@ -21,7 +22,6 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  
   Content currentContent = Content.instructions;
 
   @override
@@ -31,6 +31,10 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void callAPIRequest() {
+    if (widget.mealId == "random") {
+      context.read<DetailPageProvider>().getRandomMeal();
+      return;
+    }
     context.read<DetailPageProvider>().getMealDetail(widget.mealId);
   }
 
@@ -39,13 +43,13 @@ class _DetailPageState extends State<DetailPage> {
     return BackgroundWidget(
       scaffold: Scaffold(
         backgroundColor: Colors.transparent,
-
         body: Stack(
           children: [
-            BackBtn(onClick: () {
-              context.pop();
-            }, child: const Icon(Icons.arrow_back_rounded)),
-
+            BackBtn(
+                onClick: () {
+                  context.pop();
+                },
+                child: const Icon(Icons.arrow_back_rounded)),
             SafeArea(
               top: false,
               child: SingleChildScrollView(
@@ -90,7 +94,7 @@ class _DetailPageState extends State<DetailPage> {
                                     ),
                                   ].reversed.toList(),
                                 ),
-            
+
                                 // info
 
                                 Padding(
@@ -140,7 +144,7 @@ class _DetailPageState extends State<DetailPage> {
               child: const Text(
                 ingredientIcon,
                 style: TextStyle(fontSize: 25),
-              ), 
+              ),
             )
           ],
         ),
@@ -148,7 +152,6 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
-
 
 class DetailFabItem extends FabItem {
   final Content value;

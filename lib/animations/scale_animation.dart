@@ -12,18 +12,20 @@ class ScaleAnimation extends StatefulWidget {
 class _ScaleAnimationState extends State<ScaleAnimation> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation _scale;
+  late CurvedAnimation _curve;
 
   final animationTime = const Duration(milliseconds: 300);
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration: animationTime);
+    _curve = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _scale = TweenSequence(
       <TweenSequenceItem<double>>[
         TweenSequenceItem(tween: Tween<double>(begin: 1, end: 0.6), weight: 50),
         TweenSequenceItem(tween: Tween<double>(begin: 0.6, end: 1), weight: 50),
       ],
-    ).animate(_controller);
+    ).animate(_curve);
 
     super.initState();
   }

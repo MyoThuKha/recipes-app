@@ -65,4 +65,21 @@ class NetworkManager {
     }
     return ErrorResponseModel(code: result.statusCode, message: result.body);
   }
+
+  Future<ResponseModel> getRandomMeal() async {
+    const endpoint = "/api/json/v1/1/random.php";
+    // TODO extract same things
+    final uri = Uri(
+      scheme: "https",
+      host: baseUrl,
+      path: endpoint,
+    );
+
+    final result = await http.get(uri);
+
+    if (result.statusCode == 200) {
+      return SuccessResponseModel(code: result.statusCode, data: MealDetailModel.fromJson(jsonDecode(result.body)));
+    }
+    return ErrorResponseModel(code: result.statusCode, message: result.body);
+  }
 }

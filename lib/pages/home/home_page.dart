@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/pages/detail/detail_page.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
@@ -44,7 +46,9 @@ class _HomePageState extends State<HomePage> {
           title: "Home Screen",
           leading: CircleBtn(
             background: orangePrimaryColor,
-            onClick: () {},
+            onClick: () {
+              context.push(Uri(path: '/detail/random').toString());
+            },
             child: const Text(diceIcon, style: TextStyle(fontSize: 20)),
           ),
         ),
@@ -99,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                         final meal = model.meals[index];
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: MealItem(meal: meal,),
+                          child: MealItem(meal: meal),
                         );
                       },
                       );

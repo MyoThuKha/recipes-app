@@ -9,7 +9,7 @@ class DetailPageProvider extends BaseProvider {
   List<IngredientModel> ingredients = [];
 
   void getMealDetail(String id) async {
-    meal = null;
+    clear();
     final result = await NetworkManager.shared.getMealDetail(id);
 
     if (result is SuccessResponseModel) {
@@ -22,5 +22,23 @@ class DetailPageProvider extends BaseProvider {
     notifyListeners();
   }
 
+  void getRandomMeal() async {
+    clear();
+    final result = await NetworkManager.shared.getRandomMeal();
+
+    if (result is SuccessResponseModel) {
+      final data = result.data as MealDetailModel;
+      meal = data.meals?[0];
+      ingredients = data.meals?[0].ingredients ?? [];
+    } else {
+      failureCase(result);
+    }
+    notifyListeners();
+  }
+
+  void clear() {
+    meal = null;
+    ingredients.clear();
+  }
 
 }
