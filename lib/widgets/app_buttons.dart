@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/animations/scale_animation.dart';
 
 
 class CircleBtn extends StatelessWidget {
@@ -31,17 +32,19 @@ class BackBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: InkWell(
-        onTap: onClick,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 12),
-          width: 50,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(40),
+      child: ScaleAnimation(
+        onClick: onClick,
+        child: InkWell(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12),
+            width: 50,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            child: child,
           ),
-          child: child,
         ),
       ),
     );
