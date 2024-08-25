@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/extensions/str_extension.dart';
 import 'package:recipes/pages/detail/widgets/content_page.dart';
-import 'package:recipes/pages/detail/widgets/ingredient_tile.dart';
-import 'package:recipes/pages/detail/widgets/ingredients_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/styles/main_app_style.dart';
-import 'package:recipes/widgets/app_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/background_widget.dart';

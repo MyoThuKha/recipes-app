@@ -14,6 +14,9 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   @override
   Widget build(BuildContext context) {
-    return widget.current == Content.instructions ? const InstructionPage() : const IngredientsPage();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 100),
+      child: widget.current == Content.instructions ? const InstructionPage() : const IngredientsPage(),
+    );
   }
 }
