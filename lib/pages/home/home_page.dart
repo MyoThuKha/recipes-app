@@ -10,6 +10,7 @@ import 'package:recipes/widgets/app_bar.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/background_widget.dart';
 import 'package:recipes/widgets/choice_widget.dart';
+import 'package:recipes/widgets/loading_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   int currentIndex = 0;
 
   @override
@@ -28,14 +28,11 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-
-  void callAPIRequest()async{
+  void callAPIRequest() async {
     final model = context.read<HomePageProvider>();
     await model.getCategories();
     model.getMealsByCategory(model.categories[currentIndex]);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +49,11 @@ class _HomePageState extends State<HomePage> {
             child: const Text(diceIcon, style: TextStyle(fontSize: 20)),
           ),
         ),
-
         body: Padding(
           padding: appContentMargin,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-
               // choice section
               SizedBox(
                 height: 50,
@@ -74,8 +68,7 @@ class _HomePageState extends State<HomePage> {
                         active: currentIndex,
                         label: model.categories[index],
                         onClick: () {
-
-                          if (index == currentIndex){
+                          if (index == currentIndex) {
                             return;
                           }
 
@@ -90,23 +83,26 @@ class _HomePageState extends State<HomePage> {
                 }),
               ),
 
-
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Consumer<HomePageProvider>(
                     builder: (context, model, _) {
-                      return GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                        itemCount: model.meals.length,
-                      itemBuilder: (context, index) {
-                        final meal = model.meals[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: MealItem(meal: meal),
-                        );
-                      },
-                      );
+                      return model.isLoading
+                          ? const Center(
+                              child: GridViewLoading(),
+                            )
+                          : GridView.builder(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                              itemCount: model.meals.length,
+                              itemBuilder: (context, index) {
+                                final meal = model.meals[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: MealItem(meal: meal),
+                                );
+                              },
+                            );
                     },
                   ),
                 ),
@@ -114,7 +110,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      
       ),
     );
   }

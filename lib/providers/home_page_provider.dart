@@ -8,6 +8,8 @@ class HomePageProvider extends BaseProvider {
   List<String> categories = [];
   List<Meal> meals = [];
 
+  bool isLoading = false;
+
   String currCategory = "";
 
 
@@ -30,6 +32,8 @@ class HomePageProvider extends BaseProvider {
     }
     currCategory = category;
 
+    isLoading = true;
+
     final result = await NetworkManager.shared.getMealsByCategories(category);
 
     if (result is SuccessResponseModel) {
@@ -38,6 +42,7 @@ class HomePageProvider extends BaseProvider {
     } else {
       failureCase(result);
     }
+    isLoading = false;
     notifyListeners();
   }
 

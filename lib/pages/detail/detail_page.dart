@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/extensions/str_extension.dart';
@@ -7,13 +8,14 @@ import 'package:recipes/styles/main_app_style.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/background_widget.dart';
+import 'package:recipes/widgets/color_overlay.dart';
 import 'package:recipes/widgets/fab_btn.dart';
+import 'package:recipes/widgets/loading_widgets.dart';
 
 enum Content { instructions, ingredients }
 
 class DetailPage extends StatefulWidget {
   static const routeName = "/detail";
-  //TODO handle no id for meal
   final String mealId;
   const DetailPage({super.key, required this.mealId});
 
@@ -53,67 +55,71 @@ class _DetailPageState extends State<DetailPage> {
             SafeArea(
               top: false,
               child: SingleChildScrollView(
-                child: Consumer<DetailPageProvider>(builder: (context, model, _) {
-                  return
-                      // TODO implement loading
-                      model.meal == null
-                          ? const SizedBox()
-                          : Column(
-                              children: [
-                                // upper section
-                                Stack(
-                                  children: [
-                                    Positioned(
-                                      bottom: 0,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
-                                        child: Text(
-                                          model.meal?.strMeal ?? "",
-                                          maxLines: 2,
-                                          style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.white),
+                child: Consumer<DetailPageProvider>(
+                  builder: (context, model, _) {
+                    return model.meal == null
+                        ? const Center(child: GridViewLoading())
+                        : Column(
+                            children: [
+                              // upper section
+                              Stack(
+                                children: [
+                                  // meal name
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
+                                      child: Text(
+                                        model.meal?.strMeal ?? "",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+
+                                  ColorOverlay(
+                                    color: Colors.black.withOpacity(0.6),
+                                    child: SizedBox(
+                                      height: MediaQuery.sizeOf(context).height / 2.6,
+                                      child: CachedNetworkImage(
+                                        imageUrl: model.meal?.strMealThumb ?? "",
+                                        imageBuilder: (context, imageProvider) => Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: MediaQuery.sizeOf(context).height / 2.6,
-                                      // child: ColorFiltered(
-                                      //   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
-                                      //   child: CachedNetworkImage(
-                                      //     imageUrl: model.meal!.strMealThumb ?? "",
-                                      //     placeholder: (context, url) => const Text("Loading pls wait"),
-                                      //     imageBuilder: (context, imageProvider) => Container(
-                                      //       decoration: BoxDecoration(
-                                      //         image: DecorationImage(
-                                      //           image: imageProvider,
-                                      //           fit: BoxFit.cover,
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ),
-                                  ].reversed.toList(),
-                                ),
-
-                                // info
-
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        currentContent.name.toCapitalize(),
-                                        style: Theme.of(context).textTheme.titleMedium,
-                                      ),
-                                      const SizedBox(height: 30),
-                                      ContentPage(current: currentContent),
-                                    ],
                                   ),
-                                )
-                              ],
-                            );
-                }),
+
+                                ].reversed.toList(),
+                              ),
+
+                              // info
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      currentContent.name.toCapitalize(),
+                                      style: Theme.of(context).textTheme.titleMedium,
+                                    ),
+                                    const SizedBox(height: 30),
+                                    ContentPage(current: currentContent),
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                  },
+                ),
               ),
             ),
           ].reversed.toList(),

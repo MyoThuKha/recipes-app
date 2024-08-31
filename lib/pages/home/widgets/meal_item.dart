@@ -27,22 +27,26 @@ class MealItem extends StatelessWidget {
             bottom: 0,
             left: 0,
             child: Container(
-                alignment: Alignment.bottomCenter,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.deepPurple],
-                  ),
-                ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              alignment: Alignment.center,
+              child: Container(
+                width: double.infinity,
+                height: 80,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                color: Colors.black.withOpacity(0.5),
+                alignment: Alignment.center,
                 child: Text(
                   meal.strMeal ?? "",
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
-                )),
+                ),
+              ),
+            ),
           ),
         ],
       ),

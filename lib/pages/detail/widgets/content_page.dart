@@ -15,8 +15,10 @@ class _ContentPageState extends State<ContentPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 100),
-      child: widget.current == Content.instructions ? const InstructionPage() : const IngredientsPage(),
-    );
+        padding: const EdgeInsets.only(bottom: 100),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: widget.current == Content.instructions ? const InstructionPage() : const IngredientsPage(),
+        ));
   }
 }
