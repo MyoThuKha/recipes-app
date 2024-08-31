@@ -93,16 +93,16 @@ class _HomePageState extends State<HomePage> {
                               child: GridViewLoading(),
                             )
                           : GridView.builder(
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                              itemCount: model.meals.length,
-                              itemBuilder: (context, index) {
-                                final meal = model.meals[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MealItem(meal: meal),
-                                );
-                              },
-                            );
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                            itemCount: model.meals.length,
+                            itemBuilder: (context, index) {
+                              final meal = model.meals[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MealItem(meal: meal),
+                              );
+                            },
+                          );
                     },
                   ),
                 ),

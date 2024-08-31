@@ -58,7 +58,7 @@ class MealDetail {
     strTags = json['strTags'];
     strYoutube = json['strYoutube'];
     ingredients = List.generate(20, (index) {
-      return IngredientModel(name: json["strIngredient${index + 1}"], measurement: json['strMeasure${index + 1}']);
+      return IngredientModel(name: json["strIngredient${index + 1}"] ?? "", measurement: json['strMeasure${index + 1}'] ?? "");
     });
     strSource = json['strSource'];
     strImageSource = json['strImageSource'];
