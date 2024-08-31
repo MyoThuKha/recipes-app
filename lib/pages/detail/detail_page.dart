@@ -54,72 +54,76 @@ class _DetailPageState extends State<DetailPage> {
                 child: const Icon(Icons.arrow_back_rounded)),
             SafeArea(
               top: false,
-              child: SingleChildScrollView(
-                child: Consumer<DetailPageProvider>(
-                  builder: (context, model, _) {
-                    return model.meal == null
-                        ? const Center(child: GridViewLoading())
-                        : Column(
-                            children: [
-                              // upper section
-                              Stack(
-                                children: [
-                                  // meal name
-                                  Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
-                                      child: Text(
-                                        model.meal?.strMeal ?? "",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.white),
+              child: Consumer<DetailPageProvider>(
+                builder: (context, model, _) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: model.meal == null
+                        ? const Center(
+                            child: GridViewLoading(),
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                // upper section
+                                Stack(
+                                  children: [
+                                    // meal name
+                                    Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                        width: MediaQuery.sizeOf(context).width,
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 40),
+                                        child: Text(
+                                          model.meal?.strMeal ?? "",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                  ),
 
-                                  ColorOverlay(
-                                    color: Colors.black.withOpacity(0.6),
-                                    child: SizedBox(
-                                      height: MediaQuery.sizeOf(context).height / 2.6,
-                                      child: CachedNetworkImage(
-                                        imageUrl: model.meal?.strMealThumb ?? "",
-                                        imageBuilder: (context, imageProvider) => Container(
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
+                                    ColorOverlay(
+                                      color: Colors.black.withOpacity(0.6),
+                                      child: SizedBox(
+                                        height: MediaQuery.sizeOf(context).height / 2.6,
+                                        child: CachedNetworkImage(
+                                          imageUrl: model.meal?.strMealThumb ?? "",
+                                          imageBuilder: (context, imageProvider) => Container(
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-
-                                ].reversed.toList(),
-                              ),
-
-                              // info
-
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      currentContent.name.toCapitalize(),
-                                      style: Theme.of(context).textTheme.titleMedium,
-                                    ),
-                                    const SizedBox(height: 30),
-                                    ContentPage(current: currentContent),
-                                  ],
+                                  ].reversed.toList(),
                                 ),
-                              )
-                            ],
-                          );
-                  },
-                ),
+
+                                // info
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        currentContent.name.toCapitalize(),
+                                        style: Theme.of(context).textTheme.titleMedium,
+                                      ),
+                                      const SizedBox(height: 30),
+                                      ContentPage(current: currentContent),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                  );
+                },
               ),
             ),
           ].reversed.toList(),
