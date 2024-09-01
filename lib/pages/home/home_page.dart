@@ -41,74 +41,74 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         appBar: AppBarWidget(
           title: "Home Screen",
-          leading: CircleBtn(
-            background: orangePrimaryColor,
-            onClick: () {
-              context.push(Uri(path: '/detail/random').toString());
-            },
-            child: const Text(diceIcon, style: TextStyle(fontSize: 20)),
+          leading: Container(
+            padding: const EdgeInsets.only(left: 2),
+            child: CircleBtn(
+              background: orangePrimaryColor,
+              onClick: () {
+                context.push(Uri(path: '/detail/random').toString());
+              },
+              child: const Text(diceIcon, style: TextStyle(fontSize: 20)),
+            ),
           ),
         ),
-        body: Padding(
-          padding: appContentMargin,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // choice section
-              SizedBox(
-                height: 50,
-                child: Consumer<HomePageProvider>(builder: (context, model, _) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: model.categories.length,
-                    itemBuilder: (context, index) {
-                      return ChoiceWidget(
-                        index: index,
-                        active: currentIndex,
-                        label: model.categories[index],
-                        onClick: () {
-                          if (index == currentIndex) {
-                            return;
-                          }
-
-                          setState(() {
-                            currentIndex = index;
-                          });
-                          model.getMealsByCategory(model.categories[index]);
-                        },
-                      );
-                    },
-                  );
-                }),
-              ),
-
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Consumer<HomePageProvider>(
-                    builder: (context, model, _) {
-                      return model.isLoading
-                          ? const Center(
-                              child: GridViewLoading(),
-                            )
-                          : GridView.builder(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                            itemCount: model.meals.length,
-                            itemBuilder: (context, index) {
-                              final meal = model.meals[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: MealItem(meal: meal),
-                              );
-                            },
-                          );
-                    },
-                  ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // choice section
+            SizedBox(
+              height: 50,
+              child: Consumer<HomePageProvider>(builder: (context, model, _) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: model.categories.length,
+                  itemBuilder: (context, index) {
+                    return ChoiceWidget(
+                      index: index,
+                      active: currentIndex,
+                      label: model.categories[index],
+                      onClick: () {
+                        if (index == currentIndex) {
+                          return;
+                        }
+        
+                        setState(() {
+                          currentIndex = index;
+                        });
+                        model.getMealsByCategory(model.categories[index]);
+                      },
+                    );
+                  },
+                );
+              }),
+            ),
+        
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Consumer<HomePageProvider>(
+                  builder: (context, model, _) {
+                    return model.isLoading
+                        ? const Center(
+                            child: GridViewLoading(),
+                          )
+                        : GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                          itemCount: model.meals.length,
+                          itemBuilder: (context, index) {
+                            final meal = model.meals[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: MealItem(meal: meal),
+                            );
+                          },
+                        );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
