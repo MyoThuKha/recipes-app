@@ -21,12 +21,12 @@ class BackgroundWidget extends StatelessWidget {
 }
 
 class AppBackground extends StatelessWidget {
-  final Scaffold scaffold;
-  const AppBackground({super.key, required this.scaffold});
+  final Widget child;
+  const AppBackground({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundWidget(child: scaffold);
+    return BackgroundWidget(child: child);
   }
 }
 

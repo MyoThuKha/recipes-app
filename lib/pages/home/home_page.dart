@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppBackground(
-      scaffold: Scaffold(
+      child: Scaffold(
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [

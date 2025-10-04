@@ -8,5 +8,5 @@ class AppColors {
   const AppColors._();
 
   static const Color orange = orangePrimaryColor;
-  static const Color secondary = fabGrayColor;
+  static const Color gray = fabGrayColor;
 }

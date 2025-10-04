@@ -58,23 +58,29 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: GoogleFonts.inter().fontFamily,
           textTheme: TextTheme(
-            titleMedium: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 28,
-            ),
             displayLarge: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 35,
               fontFamily: "Fearless",
             ),
+            // titleMedium: GoogleFonts.inter(
+            //   fontWeight: FontWeight.bold,
+            //   fontSize: 25,
+            // ),
+            titleMedium: GoogleFonts.inter(
+              fontWeight: FontWeight.bold,
+              color: Colors.black.opaque(0.7),
+              fontSize: 25,
+            ),
             bodyLarge: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 20,
             ),
-            bodyMedium: const TextStyle(
-              fontWeight: FontWeight.w500,
+            bodyMedium: GoogleFonts.inter(
+              fontWeight: FontWeight.w600,
               fontSize: 16,
-              height: 1.5,
+              height: 2,
+
             ),
             labelMedium: GoogleFonts.inter(
               fontSize: 13,

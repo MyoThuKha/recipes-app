@@ -7,6 +7,9 @@ class InstructionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(context.read<DetailPageProvider>().meal?.strInstructions ?? "");
+    return Text(
+      context.read<DetailPageProvider>().meal?.strInstructions ?? "",
+      maxLines: null,
+    );
   }
 }

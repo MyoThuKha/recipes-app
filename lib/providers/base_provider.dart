@@ -4,8 +4,6 @@ import 'package:recipes/models/response_model.dart';
 class BaseProvider extends ChangeNotifier{
 
   void failureCase(ResponseModel result) {
-      final res = result as ErrorResponseModel;
-      print("Failure ----- ");
-      print(res.message);
+      // final res = result as ErrorResponseModel;
   }
 }
