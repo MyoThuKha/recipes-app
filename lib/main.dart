@@ -8,7 +8,9 @@ import 'package:recipes/pages/home/home_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GoogleFonts.pendingFonts();
   runApp(const MyApp());
 }
 

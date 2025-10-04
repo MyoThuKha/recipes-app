@@ -18,7 +18,7 @@ class CircleBtn extends StatelessWidget {
       splashColor: splash,
       fillColor: background,
       elevation: 0,
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(10),
       onPressed: onClick,
       child: child,
     );

@@ -1,4 +1,4 @@
-package com.example.recipes
+package app.myothukha.recipes
 
 import io.flutter.embedding.android.FlutterActivity
 

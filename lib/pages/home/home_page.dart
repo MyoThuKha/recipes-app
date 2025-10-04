@@ -2,6 +2,7 @@ import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
@@ -60,9 +61,10 @@ class _HomePageState extends State<HomePage> {
                       onClick: () {
                         context.push(Uri(path: '/detail/random').toString());
                       },
-                      child: const Text(
-                        EmojiIcons.dice,
-                        style: TextStyle(fontSize: 20),
+                      child: Image.asset(
+                        AssetsIcons.dice,
+                        width: 25,
+                        height: 25,
                       ),
                     ),
                     Text(
@@ -88,15 +90,17 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       itemCount: model.categories.length,
                       itemBuilder: (context, index) {
-                        return ChoiceWidget(
-                          index: index,
-                          activeIndex: currentIndex,
-                          label: model.categories[index],
-                          onClick: () {
-                            if (index == currentIndex) return;
-                            setState(() => currentIndex = index);
-                            model.getMealsByCategory(model.categories[index]);
-                          },
+                        return AnimatedScrollViewItem(
+                          child: ChoiceWidget(
+                            index: index,
+                            activeIndex: currentIndex,
+                            label: model.categories[index],
+                            onClick: () {
+                              if (index == currentIndex) return;
+                              setState(() => currentIndex = index);
+                              model.getMealsByCategory(model.categories[index]);
+                            },
+                          ),
                         );
                       },
                     );

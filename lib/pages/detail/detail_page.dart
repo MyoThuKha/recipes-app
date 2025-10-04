@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/extensions/str_extension.dart';
 import 'package:recipes/pages/detail/widgets/ingredients_page.dart';
@@ -148,9 +149,10 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                 FabItem(
                   value: Content.ingredients,
                   onClick: onContentChanged,
-                  child: const Text(
-                    EmojiIcons.ingredient,
-                    style: TextStyle(fontSize: 25),
+                  child: Image.asset(
+                    AssetsIcons.carrot,
+                    width: 30,
+                    height: 30,
                   ),
                 ),
               ],
