@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BackgroundWidget extends StatelessWidget {
-  final Scaffold scaffold;
-  const BackgroundWidget({super.key, required this.scaffold});
+  final Widget child;
+  const BackgroundWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,20 @@ class BackgroundWidget extends StatelessWidget {
         fit: BoxFit.fill,
       )
       ),
-      child: scaffold,
+      child: child,
     );
   }
 }
+
+class AppBackground extends StatelessWidget {
+  final Scaffold scaffold;
+  const AppBackground({super.key, required this.scaffold});
+
+  @override
+  Widget build(BuildContext context) {
+    return BackgroundWidget(child: scaffold);
+  }
+}
+
+
+

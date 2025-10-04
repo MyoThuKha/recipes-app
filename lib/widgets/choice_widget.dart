@@ -1,109 +1,99 @@
+import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
-import 'package:recipes/animations/opacity_animation.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class ChoiceWidget extends StatefulWidget {
   final String? label;
   final VoidCallback onClick;
   final int index;
-  final int active;
-  const ChoiceWidget({super.key, required this.label, required this.onClick, required this.index, required this.active});
+  final int activeIndex;
+  const ChoiceWidget({
+    super.key,
+    required this.label,
+    required this.onClick,
+    required this.index,
+    required this.activeIndex,
+  });
 
   @override
   State<ChoiceWidget> createState() => _ChoiceWidgetState();
 }
 
-class _ChoiceWidgetState extends State<ChoiceWidget> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation alignAnimation;
-  late Animation colorAnimation;
-  late Animation textMoveAnimation;
-  late CurvedAnimation curve;
+class _ChoiceWidgetState extends State<ChoiceWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> radiusTween;
 
   @override
   void initState() {
-    initAnimationValues();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+      reverseDuration: const Duration(milliseconds: 800),
+    );
+
+    radiusTween = Tween<double>(begin: 0, end: 10).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
     super.initState();
-  }
-
-  void initAnimationValues (){
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-    curve = CurvedAnimation(parent: controller, curve: Curves.easeInOut);
-
-    alignAnimation = Tween<Alignment>(begin: Alignment.centerLeft, end: Alignment.centerRight).animate(curve);
-    colorAnimation = ColorTween(begin: Colors.white, end: Colors.black).animate(curve);
-    textMoveAnimation = Tween<double>(begin: 0, end: 30).animate(curve);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    bool isActive = widget.index == widget.active;
-
-    if (isActive) {
-      controller.forward();
+  void didUpdateWidget(covariant ChoiceWidget oldWidget) {
+    if (widget.index == widget.activeIndex) {
+      _controller.forward();
     } else {
-      controller.reverse();
+      _controller.reverse();
     }
+    super.didUpdateWidget(oldWidget);
+  }
 
-    return OpacityAnimation(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, _) {
-              return GestureDetector(
-                onTap: () {
-                  widget.onClick();
-                },
-                child: Container(
-                        width: 120,
-                  decoration: BoxDecoration(
-                    color: colorAnimation.value,
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(width: 1, color: Colors.black),
-                  ),
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Align(
-                        alignment: alignAnimation.value,
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
 
-                      // check mark
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          width: 40,
-                          child: Icon(
-                            Icons.check_rounded,
-                            color: colorAnimation.value,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: textMoveAnimation.value),
-                        child: Text(
-                          widget.label ?? "",
-                          style: TextStyle(
-                            color: isActive ? Colors.white : Colors.black,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onClick,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: ShapeDecoration(
+              // color: widget.index == widget.activeIndex ? Colors.black : Colors.white,
+              shape: StadiumBorder(
+                side: BorderSide(
+                  width: 1.2,
+                  color: context.colorScheme.outline,
                 ),
-              );
-            }),
+              ),
+              gradient: RadialGradient(
+                center: AlignmentGeometry.centerLeft,
+                radius: radiusTween.value,
+                colors: <Color>[
+                  context.colorScheme.surface,
+                  context.colorScheme.surface,
+                  Colors.transparent,
+                ],
+              ),
+            ),
+            alignment: Alignment.center,
+            child: child,
+          );
+        },
+        child: Text(
+          widget.label ?? "",
+          style: GoogleFonts.inter(
+            textStyle: context.textTheme.labelMedium,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
     );
   }

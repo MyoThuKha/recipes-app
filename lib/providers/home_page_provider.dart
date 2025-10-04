@@ -30,11 +30,20 @@ class HomePageProvider extends BaseProvider {
     if (currCategory == category){
       return;
     }
+
     currCategory = category;
 
     isLoading = true;
 
-    final result = await NetworkManager.shared.getMealsByCategories(category);
+    // final result = await NetworkManager.shared.getMealsByCategories(category);
+    final data = NetworkManager.shared.getMealsByCategories(category);
+
+    await Future.wait([
+      data,
+      Future.delayed(const Duration(milliseconds: 1000)),
+    ]);
+
+    final result = await data;
 
     if (result is SuccessResponseModel) {
       final convertedResult = result.data as MealListModel;

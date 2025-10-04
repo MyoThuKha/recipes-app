@@ -1,12 +1,11 @@
+import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:recipes/pages/detail/detail_page.dart';
+import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
-import 'package:recipes/styles/main_app_style.dart';
-import 'package:recipes/widgets/app_bar.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/background_widget.dart';
 import 'package:recipes/widgets/choice_widget.dart';
@@ -34,79 +33,108 @@ class _HomePageState extends State<HomePage> {
     model.getMealsByCategory(model.categories[currentIndex]);
   }
 
+  final mainPagePadding = const EdgeInsets.symmetric(horizontal: 16.0);
+
   @override
   Widget build(BuildContext context) {
-    return BackgroundWidget(
+    return AppBackground(
       scaffold: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBarWidget(
-          title: "Home Screen",
-          leading: Container(
-            padding: const EdgeInsets.only(left: 2),
-            child: CircleBtn(
-              background: orangePrimaryColor,
-              onClick: () {
-                context.push(Uri(path: '/detail/random').toString());
-              },
-              child: const Text(diceIcon, style: TextStyle(fontSize: 20)),
-            ),
-          ),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // choice section
-            SizedBox(
-              height: 50,
-              child: Consumer<HomePageProvider>(builder: (context, model, _) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: model.categories.length,
-                  itemBuilder: (context, index) {
-                    return ChoiceWidget(
-                      index: index,
-                      active: currentIndex,
-                      label: model.categories[index],
+        body: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            // MARK: APP BAR
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 100,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: false,
+                titlePadding: mainPagePadding,
+                expandedTitleScale: 1.4,
+                title: Row(
+                  spacing: 12,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleBtn(
+                      background: AppColors.orange,
                       onClick: () {
-                        if (index == currentIndex) {
-                          return;
-                        }
-        
-                        setState(() {
-                          currentIndex = index;
-                        });
-                        model.getMealsByCategory(model.categories[index]);
+                        context.push(Uri(path: '/detail/random').toString());
+                      },
+                      child: const Text(
+                        EmojiIcons.dice,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Text(
+                      "Dishes",
+                      style: context.theme.appBarTheme.titleTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // MARK: CHOICE SECTION
+            SliverToBoxAdapter(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 16),
+                height: 50,
+                child: Consumer<HomePageProvider>(
+                  builder: (context, model, _) {
+                    return ListView.separated(
+                      padding: mainPagePadding,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 8),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: model.categories.length,
+                      itemBuilder: (context, index) {
+                        return ChoiceWidget(
+                          index: index,
+                          activeIndex: currentIndex,
+                          label: model.categories[index],
+                          onClick: () {
+                            if (index == currentIndex) return;
+                            setState(() => currentIndex = index);
+                            model.getMealsByCategory(model.categories[index]);
+                          },
+                        );
                       },
                     );
                   },
-                );
-              }),
-            ),
-        
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Consumer<HomePageProvider>(
-                  builder: (context, model, _) {
-                    return model.isLoading
-                        ? const Center(
-                            child: GridViewLoading(),
-                          )
-                        : GridView.builder(
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                          itemCount: model.meals.length,
-                          itemBuilder: (context, index) {
-                            final meal = model.meals[index];
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: MealItem(meal: meal),
-                            );
-                          },
-                        );
-                  },
                 ),
               ),
+            ),
+        
+            // MARK: MEAL GRID
+            Consumer<HomePageProvider>(
+              builder: (context, provider, _) {
+
+                if (provider.isLoading) {
+                  return const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(child: GridViewLoading()),
+                  );
+                }
+
+                return SliverPadding(
+                  padding: mainPagePadding,
+                  sliver: SliverGrid.builder(
+                    itemCount: provider.meals.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 8,
+                          crossAxisCount: 2,
+                        ),
+                    itemBuilder: (context, index) {
+                      final meal = provider.meals[index];
+                      return AnimatedScrollViewItem(
+                        child: MealItem(meal: meal),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),

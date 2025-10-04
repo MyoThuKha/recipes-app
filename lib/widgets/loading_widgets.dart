@@ -1,4 +1,8 @@
+import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:recipes/consts/emoji_icons.dart';
 
 class GridViewLoading extends StatelessWidget {
   const GridViewLoading({super.key});
@@ -6,31 +10,27 @@ class GridViewLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(width: 1.5,color: Colors.black.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(300),
-      ),
       padding: const EdgeInsets.all(5),
-      child: const Row(
+      child: Column(
+        spacing: 12,
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            child: CircularProgressIndicator.adaptive(backgroundColor: Colors.deepPurple,),
+          const Text(EmojiIcons.pan, style: TextStyle(fontSize: 80))
+              .animate(
+                onComplete: (controller) => controller.repeat(reverse: true),
+              )
+              .slideY(duration: 1500.ms, curve: Curves.easeInOut),
 
-          ),
-          SizedBox(width: 10),
           Text(
-            "Please wait ...",
-            style: TextStyle(
-              fontStyle: FontStyle.italic,
-              fontSize: 18,
+            "Preparing ...",
+            style: GoogleFonts.instrumentSerif(
+              textStyle: context.textTheme.bodyLarge,
               fontWeight: FontWeight.bold,
-              fontFamily: "Fearless",
+              letterSpacing: 1.2,
+              // fontFamily: "Fearless",
             ),
           ),
-          SizedBox(width: 10),
         ],
       ),
     );

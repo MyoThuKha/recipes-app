@@ -14,9 +14,11 @@ class CircleBtn extends StatelessWidget {
     return RawMaterialButton(
       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       shape: const CircleBorder(),
+      constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
       splashColor: splash,
       fillColor: background,
       elevation: 0,
+      padding: const EdgeInsets.all(15),
       onPressed: onClick,
       child: child,
     );
