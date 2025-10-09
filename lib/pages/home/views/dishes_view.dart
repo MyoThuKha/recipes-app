@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
+import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
@@ -114,7 +115,16 @@ class _DishesViewState extends State<DishesView> {
                 ),
                 itemBuilder: (context, index) {
                   final meal = provider.meals[index];
-                  return AnimatedScrollViewItem(child: MealItem(meal: meal));
+                  return AnimatedScrollViewItem(
+                    child: MealItem(
+                      meal: meal,
+                      action: MealItemAction(
+                        label: "Add to Collection",
+                        icon: AssetsIcons.fridge,
+                        onClick: (_) => addToCollection(meal),
+                      ),
+                    ),
+                  );
                 },
               ),
             );
@@ -125,5 +135,9 @@ class _DishesViewState extends State<DishesView> {
         const SliverToBoxAdapter(child: SizedBox(height: 60)),
       ],
     );
+  }
+
+  void addToCollection(Meal meal) async {
+    context.read<HomePageProvider>().addToCollection(meal);
   }
 }

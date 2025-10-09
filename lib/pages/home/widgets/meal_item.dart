@@ -3,13 +3,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
 
+
+class MealItemAction {
+  final String label;
+  final String icon;
+  final ValueChanged onClick;
+  const MealItemAction({required this.label, required this.icon, required this.onClick});
+}
+
 class MealItem extends StatelessWidget {
   final Meal meal;
-  const MealItem({super.key, required this.meal});
+  final bool disableAction;
+  final MealItemAction action;
+  const MealItem({super.key, required this.meal, this.disableAction = false, required this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +63,14 @@ class MealItem extends StatelessWidget {
 
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        child: Image.asset(
-                          AssetsIcons.fridge,
-                          width: 20,
-                          semanticLabel: "Add to Favorite",
+                      child: GestureDetector(
+                        onTap: ()=> action.onClick(meal),
+                        child: CircleAvatar(
+                          child: Image.asset(
+                            action.icon,
+                            width: 20,
+                            semanticLabel: action.label,
+                          ),
                         ),
                       ),
                     ),
@@ -181,4 +193,5 @@ class MealItem extends StatelessWidget {
       // ),
     );
   }
+
 }

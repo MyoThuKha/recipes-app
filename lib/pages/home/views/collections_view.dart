@@ -2,8 +2,9 @@ import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
+import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
-import 'package:recipes/providers/home_page_provider.dart';
+import 'package:recipes/providers/collections_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
 import 'package:recipes/widgets/dynamic_blur_appbar.dart';
 import 'package:recipes/widgets/loading_widgets.dart';
@@ -28,6 +29,7 @@ class _CollectionsViewState extends State<CollectionsView> {
   }
 
   void fetchLocalDishes() async {
+    context.read<CollectionsPageProvider>().getLocalDishes();
   }
 
   @override
@@ -90,7 +92,7 @@ class _CollectionsViewState extends State<CollectionsView> {
         const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
         // MARK: MEAL GRID
-        Consumer<HomePageProvider>(
+        Consumer<CollectionsPageProvider>(
           builder: (context, provider, _) {
             if (provider.isLoading) {
               return const SliverFillRemaining(
@@ -98,6 +100,7 @@ class _CollectionsViewState extends State<CollectionsView> {
                 child: Center(child: GridViewLoading()),
               );
             }
+            // TODO: implement no data UI.
 
             return SliverPadding(
               padding: mainPagePadding,
@@ -110,7 +113,15 @@ class _CollectionsViewState extends State<CollectionsView> {
                 ),
                 itemBuilder: (context, index) {
                   final meal = provider.meals[index];
-                  return AnimatedScrollViewItem(child: MealItem(meal: meal));
+                  return AnimatedScrollViewItem(
+                    child: MealItem(
+                      meal: meal,
+                      action: MealItemAction(
+                        label: "Add to Collection",
+                        icon: AssetsIcons.trash,
+                        onClick: (_) => removeFromCollection(meal),
+                      ),
+                  ));
                 },
               ),
             );
@@ -121,5 +132,9 @@ class _CollectionsViewState extends State<CollectionsView> {
         const SliverToBoxAdapter(child: SizedBox(height: 60)),
       ],
     );
+  }
+
+  void removeFromCollection(Meal meal) async {
+    context.read<CollectionsPageProvider>().remove(meal);
   }
 }

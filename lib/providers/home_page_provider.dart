@@ -1,8 +1,11 @@
+import 'package:recipes/entities/collection_entity.dart';
+import 'package:recipes/injector.dart';
 import 'package:recipes/models/category_model.dart';
 import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/models/response_model.dart';
 import 'package:recipes/network/network_manager.dart';
 import 'package:recipes/providers/base_provider.dart';
+import 'package:recipes/storage/storage_manager.dart';
 
 class HomePageProvider extends BaseProvider {
   List<String> categories = [];
@@ -53,6 +56,17 @@ class HomePageProvider extends BaseProvider {
     }
     isLoading = false;
     notifyListeners();
+  }
+
+
+  Future<void> addToCollection(Meal meal) async {
+    final entity = CollectionEntity();
+
+    entity.idMeal = meal.idMeal;
+    entity.strMeal = meal.strMeal;
+    entity.strMealThumb = meal.strMealThumb;
+
+    final result = getIt.get<StorageManager>().update<CollectionEntity>(entity);
   }
 
 

@@ -1,3 +1,5 @@
+import 'package:recipes/entities/collection_entity.dart';
+
 class MealListModel {
   List<Meal>? meals;
 
@@ -40,5 +42,13 @@ class Meal {
     data['strMealThumb'] = strMealThumb;
     data['idMeal'] = idMeal;
     return data;
+  }
+
+  factory Meal.fromEntity(CollectionEntity entity) {
+    return Meal(
+      idMeal: entity.idMeal,
+      strMeal: entity.strMeal,
+      strMealThumb: entity.strMealThumb,
+    );
   }
 }

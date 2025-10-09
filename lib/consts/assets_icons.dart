@@ -9,4 +9,5 @@ class AssetsIcons {
   static const String carrot = "$_path/carrot.png";
   static const String kitchen = "$_path/kitchen.png";
   static const String search = "$_path/search.png";
+  static const String trash = "$_path/trash.png";
 }

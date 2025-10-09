@@ -1,16 +1,33 @@
 import 'package:basepack/basepack.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:recipes/injector.dart';
 import 'package:recipes/pages/detail/detail_page.dart';
 import 'package:recipes/pages/home/home_page.dart';
+import 'package:recipes/providers/collections_page_provider.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/providers/home_page_provider.dart';
+import 'package:recipes/storage/storage_manager.dart';
+import 'package:recipes/storage/storage_path.dart';
+
+Future<void> setUpStorageService() async {
+  try {
+    final storagePath = await getIt<PathService>().getStoragePath();
+    getIt<StorageManager>().init(storagePath);
+  } catch (e) {
+    if (kDebugMode) {
+      print('Warning: StorageService failed to initialize: $e');
+    }
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GoogleFonts.pendingFonts();
+  setupLocator();
+  await Future.wait([setUpStorageService(), GoogleFonts.pendingFonts()]);
   runApp(const MyApp());
 }
 
@@ -22,6 +39,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomePageProvider()),
+        ChangeNotifierProvider(create: (context) => CollectionsPageProvider()),
         ChangeNotifierProvider(create: (context) => DetailPageProvider()),
       ],
       child: MaterialApp.router(
