@@ -1,16 +1,9 @@
-import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
-import 'package:recipes/pages/home/widgets/meal_item.dart';
-import 'package:recipes/providers/home_page_provider.dart';
-import 'package:recipes/styles/colors.dart';
-import 'package:recipes/widgets/app_buttons.dart';
+import 'package:recipes/pages/home/views/collections_view.dart';
+import 'package:recipes/pages/home/views/dishes_view.dart';
+import 'package:recipes/widgets/app_tab_bar.dart';
 import 'package:recipes/widgets/background_widget.dart';
-import 'package:recipes/widgets/choice_widget.dart';
-import 'package:recipes/widgets/dynamic_blur_appbar.dart';
-import 'package:recipes/widgets/loading_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,128 +13,46 @@ class HomePage extends StatefulWidget {
 }
 
 
-class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+
+
+  late final TabController _tabController;
 
   @override
   void initState() {
-    callAPIRequest();
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  void callAPIRequest() async {
-    final model = context.read<HomePageProvider>();
-    await model.getCategories();
-    model.getMealsByCategory(model.categories[currentIndex]);
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
-  final mainPagePadding = const EdgeInsets.symmetric(horizontal: 16.0);
 
   @override
   Widget build(BuildContext context) {
     return AppBackground(
       child: Scaffold(
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            // MARK: APP BAR
-            DynamicBlurAppbar(
-              titleHeight: 100,
-              bottomHeight: 50,
-              scrollScaling: 0.6,
-              pinned: true,
-              title: Padding(
-                padding: mainPagePadding,
-                child: Row(
-                  spacing: 12,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleBtn(
-                      background: AppColors.orange,
-                      onClick: () {
-                        context.push(Uri(path: '/detail/random').toString());
-                      },
-                      child: Image.asset(
-                        AssetsIcons.dice,
-                        width: 25,
-                        height: 25,
-                      ),
-                    ),
-                    Text(
-                      "Dishes",
-                      style: context.theme.appBarTheme.titleTextStyle,
-                    ),
-                  ],
-                ),
-              ),
-            // MARK: CHOICE SECTION
-              bottom: Consumer<HomePageProvider>(
-                builder: (context, model, _) {
-                  return ListView.separated(
-                    padding: mainPagePadding,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 8),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: model.categories.length,
-                    itemBuilder: (context, index) {
-                      return AnimatedScrollViewItem(
-                        child: ChoiceWidget(
-                          index: index,
-                          activeIndex: currentIndex,
-                          label: model.categories[index],
-                          onClick: () {
-                            if (index == currentIndex) return;
-                            setState(() => currentIndex = index);
-                            model.getMealsByCategory(model.categories[index]);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _tabController,
+          children: const [DishesView(), CollectionsView()],
+          // children: const [Text("Dish View"), Text("Collections View")],
 
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
-        
-            // MARK: MEAL GRID
-            Consumer<HomePageProvider>(
-              builder: (context, provider, _) {
-
-                if (provider.isLoading) {
-                  return const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(child: GridViewLoading()),
-                  );
-                }
-
-                return SliverPadding(
-                  padding: mainPagePadding,
-                  sliver: SliverGrid.builder(
-                    itemCount: provider.meals.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 8,
-                          crossAxisCount: 2,
-                        ),
-                    itemBuilder: (context, index) {
-                      final meal = provider.meals[index];
-                      return AnimatedScrollViewItem(
-                        child: MealItem(meal: meal),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-
-            // Spacing for bottom
-            const SliverToBoxAdapter(child: SizedBox(height: 60))
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        floatingActionButton: AppTabBar(
+          height: 75,
+          tabController: _tabController,
+          tabs: const [
+            AppTabBarIcon(icon: AssetsIcons.kitchen),
+            AppTabBarIcon(icon: AssetsIcons.fridge),
           ],
         ),
       ),
     );
   }
+
 }

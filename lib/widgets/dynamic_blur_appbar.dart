@@ -97,6 +97,8 @@ class _DynamicBlurAppbarState extends State<DynamicBlurAppbar> {
       floating: widget.floating,
       expandedHeight: 120 + widget.bottomHeight,
       collapsedHeight: 60 + widget.bottomHeight,
+      // expandedHeight: (widget.titleHeight) + widget.bottomHeight,
+      // collapsedHeight: (widget.titleHeight * widget.scrollScaling) + widget.bottomHeight,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: false,
         titlePadding: const EdgeInsets.all(0),
@@ -133,7 +135,7 @@ class _DynamicBlurAppbarState extends State<DynamicBlurAppbar> {
 
                   Container(
                     margin: const EdgeInsets.only(bottom: 5),
-                    height: 50, child: widget.bottom),
+                    height: widget.bottomHeight, child: widget.bottom),
                 ],
               ),
             ),

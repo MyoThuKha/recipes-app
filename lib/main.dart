@@ -30,8 +30,16 @@ class MyApp extends StatelessWidget {
         title: 'Recipes',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.transparent,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(
-            outline: Colors.black.opaque(0.4),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+          ).copyWith(outline: Colors.black.opaque(0.4)),
+          tabBarTheme: const TabBarThemeData(
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
+            indicator: ShapeDecoration(
+              color: Color(0xFFFBE9B5),
+              shape: CircleBorder(),
+            ),
           ),
           appBarTheme: AppBarTheme(
             elevation: 0,
