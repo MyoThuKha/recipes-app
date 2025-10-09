@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
-import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/background_widget.dart';
 import 'package:recipes/widgets/choice_widget.dart';
+import 'package:recipes/widgets/dynamic_blur_appbar.dart';
 import 'package:recipes/widgets/loading_widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
@@ -44,14 +45,14 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           slivers: [
             // MARK: APP BAR
-            SliverAppBar(
+            DynamicBlurAppbar(
+              titleHeight: 100,
+              bottomHeight: 50,
+              scrollScaling: 0.6,
               pinned: true,
-              expandedHeight: 100,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: false,
-                titlePadding: mainPagePadding,
-                expandedTitleScale: 1.4,
-                title: Row(
+              title: Padding(
+                padding: mainPagePadding,
+                child: Row(
                   spacing: 12,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,40 +75,35 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-            ),
-
             // MARK: CHOICE SECTION
-            SliverToBoxAdapter(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                height: 50,
-                child: Consumer<HomePageProvider>(
-                  builder: (context, model, _) {
-                    return ListView.separated(
-                      padding: mainPagePadding,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 8),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: model.categories.length,
-                      itemBuilder: (context, index) {
-                        return AnimatedScrollViewItem(
-                          child: ChoiceWidget(
-                            index: index,
-                            activeIndex: currentIndex,
-                            label: model.categories[index],
-                            onClick: () {
-                              if (index == currentIndex) return;
-                              setState(() => currentIndex = index);
-                              model.getMealsByCategory(model.categories[index]);
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+              bottom: Consumer<HomePageProvider>(
+                builder: (context, model, _) {
+                  return ListView.separated(
+                    padding: mainPagePadding,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 8),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: model.categories.length,
+                    itemBuilder: (context, index) {
+                      return AnimatedScrollViewItem(
+                        child: ChoiceWidget(
+                          index: index,
+                          activeIndex: currentIndex,
+                          label: model.categories[index],
+                          onClick: () {
+                            if (index == currentIndex) return;
+                            setState(() => currentIndex = index);
+                            model.getMealsByCategory(model.categories[index]);
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
+
+            const SliverToBoxAdapter(child: SizedBox(height: 20)),
         
             // MARK: MEAL GRID
             Consumer<HomePageProvider>(
@@ -140,6 +136,9 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
+
+            // Spacing for bottom
+            const SliverToBoxAdapter(child: SizedBox(height: 60))
           ],
         ),
       ),

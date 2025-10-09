@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
-import 'package:recipes/consts/emoji_icons.dart';
 import 'package:recipes/extensions/str_extension.dart';
 import 'package:recipes/pages/detail/widgets/ingredients_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
@@ -76,6 +75,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                         color: Colors.white,
                       ),
                     ),
+                    collapseMode: CollapseMode.parallax,
                     background: CachedNetworkImage(
                       imageUrl: provider.meal?.strMealThumb ?? "",
                       width: double.infinity,

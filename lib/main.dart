@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             //   ),
             titleTextStyle: GoogleFonts.instrumentSerif(
               fontWeight: FontWeight.w700,
-              fontSize: 35,
+              fontSize: 50,
             ),
           ),
           cardTheme: CardThemeData(

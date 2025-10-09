@@ -66,10 +66,9 @@ class _ChoiceWidgetState extends State<ChoiceWidget>
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: ShapeDecoration(
-              // color: widget.index == widget.activeIndex ? Colors.black : Colors.white,
               shape: StadiumBorder(
                 side: BorderSide(
-                  width: 1.2,
+                  width: 1,
                   color: context.colorScheme.outline,
                 ),
               ),

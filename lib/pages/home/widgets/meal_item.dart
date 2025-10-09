@@ -1,4 +1,3 @@
-
 import 'package:basepack/basepack.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -53,13 +52,13 @@ class MealItem extends StatelessWidget {
                       ),
                     ),
 
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
-                        child: Image.asset(AssetsIcons.fridge,
-                        width: 20,
-                        semanticLabel: "Add to Favorite",
+                        child: Image.asset(
+                          AssetsIcons.fridge,
+                          width: 20,
+                          semanticLabel: "Add to Favorite",
                         ),
                       ),
                     ),
@@ -78,28 +77,32 @@ class MealItem extends StatelessWidget {
                           meal.strMeal ?? "",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.labelMedium,
-                        ),
-                      ),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 4,
-                        ),
-                        decoration: ShapeDecoration(
-                          color: Colors.grey[200],
-                          shape: const StadiumBorder(),
-                        ),
-                        child: Text(
-                          "3 min",
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500,
+                            textStyle: context.textTheme.labelMedium,
+                            height: 1.5,
                           ),
                         ),
                       ),
+
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //     horizontal: 6,
+                      //     vertical: 4,
+                      //   ),
+                      //   decoration: ShapeDecoration(
+                      //     color: Colors.grey[200],
+                      //     shape: const StadiumBorder(),
+                      //   ),
+                      //   child: Text(
+                      //     "3 min",
+                      //     style: GoogleFonts.inter(
+                      //       fontSize: 11,
+                      //       color: Colors.grey[600],
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
