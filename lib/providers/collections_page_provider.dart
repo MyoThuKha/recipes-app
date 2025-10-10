@@ -32,7 +32,7 @@ class CollectionsPageProvider extends BaseProvider {
 
   void remove(Meal meal) async {
     final result = collections.firstWhere((element) => element.idMeal == meal.idMeal);
-    await getIt.get<StorageManager>().delete(result.id);
+    await getIt.get<StorageManager>().delete<CollectionEntity>(result.id);
     collections.remove(result);
     meals.removeWhere((element) => element.idMeal == meal.idMeal);
     notifyListeners();

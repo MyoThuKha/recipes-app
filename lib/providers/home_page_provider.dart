@@ -66,7 +66,8 @@ class HomePageProvider extends BaseProvider {
     entity.strMeal = meal.strMeal;
     entity.strMealThumb = meal.strMealThumb;
 
-    final result = getIt.get<StorageManager>().update<CollectionEntity>(entity);
+    final result = await getIt.get<StorageManager>().update<CollectionEntity>(entity);
+
   }
 
 

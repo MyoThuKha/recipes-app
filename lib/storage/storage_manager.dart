@@ -109,6 +109,7 @@ class StorageManager {
       final box = _boxFor<T>();
       return box.remove(id);
     } catch (e) {
+      print(e.toString());
       return false;
     }
   }
