@@ -10,6 +10,7 @@ import 'package:recipes/styles/colors.dart';
 import 'package:recipes/widgets/app_buttons.dart';
 import 'package:recipes/widgets/choice_widget.dart';
 import 'package:recipes/widgets/dynamic_blur_appbar.dart';
+import 'package:recipes/widgets/empty_widget.dart';
 import 'package:recipes/widgets/loading_widgets.dart';
 
 const mainPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
@@ -101,6 +102,19 @@ class _DishesViewState extends State<DishesView> {
               return const SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(child: GridViewLoading()),
+              );
+            }
+
+            if (provider.meals.isEmpty) {
+              return const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: EmptyWidget(
+                    icon: AssetsIcons.spices,
+                    title: "Seem like our chef is out of town\n for this category.",
+                    endSpacing: 250,
+                  ),
+                ),
               );
             }
 

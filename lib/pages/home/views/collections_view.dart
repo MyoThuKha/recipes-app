@@ -7,6 +7,7 @@ import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/collections_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
 import 'package:recipes/widgets/dynamic_blur_appbar.dart';
+import 'package:recipes/widgets/empty_widget.dart' show EmptyWidget;
 import 'package:recipes/widgets/loading_widgets.dart';
 
 const mainPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
@@ -57,7 +58,7 @@ class _CollectionsViewState extends State<CollectionsView> {
                   child: Image.asset(AssetsIcons.fridge, width: 35, height: 35),
                 ),
                 Text(
-                  "Your Fridge",
+                  "Your Collections",
                   style: context.theme.appBarTheme.titleTextStyle,
                 ),
               ],
@@ -100,7 +101,19 @@ class _CollectionsViewState extends State<CollectionsView> {
                 child: Center(child: GridViewLoading()),
               );
             }
-            // TODO: implement no data UI.
+            if (provider.meals.isEmpty) {
+              return const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: EmptyWidget(
+                    icon: AssetsIcons.dishDrying,
+                    // title: "Nothing in your collection yet.",
+                    title: "Very Clean Collection.\nReady to add some dishes.",
+                    endSpacing: 200,
+                  ),
+                ),
+              );
+            }
 
             return SliverPadding(
               padding: mainPagePadding,
