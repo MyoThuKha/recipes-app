@@ -6,7 +6,6 @@ import 'package:recipes/models/meal_detail_model.dart';
 import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/models/response_model.dart';
 
-enum Status { loading, success, error }
 
 class NetworkManager {
   final baseUrl = "www.themealdb.com";

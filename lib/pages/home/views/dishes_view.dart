@@ -1,6 +1,7 @@
 import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
@@ -12,6 +13,7 @@ import 'package:recipes/widgets/choice_widget.dart';
 import 'package:recipes/widgets/dynamic_blur_appbar.dart';
 import 'package:recipes/widgets/empty_widget.dart';
 import 'package:recipes/widgets/loading_widgets.dart';
+import 'package:recipes/widgets/snack_bar_widget.dart';
 
 const mainPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
 
@@ -32,11 +34,13 @@ class _DishesViewState extends State<DishesView> {
     super.initState();
   }
 
-  void callAPIRequest() async {
+  Future<void> callAPIRequest() async {
     final model = context.read<HomePageProvider>();
     await model.getCategories();
+    model.loadAllLocalDishes();
     model.getMealsByCategory(model.categories[currentIndex]);
   }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -152,6 +156,11 @@ class _DishesViewState extends State<DishesView> {
   }
 
   void addToCollection(Meal meal) async {
-    context.read<HomePageProvider>().addToCollection(meal);
+    showSnackBarWidget(context: context, message: "Adding...");
+
+    final result = await context.read<HomePageProvider>().addToCollection(meal);
+
+    if (!mounted) return;
+    showSnackBarWidget(context: context, message: result.message);
   }
 }

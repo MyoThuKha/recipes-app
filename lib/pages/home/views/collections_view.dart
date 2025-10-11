@@ -9,6 +9,7 @@ import 'package:recipes/styles/colors.dart';
 import 'package:recipes/widgets/dynamic_blur_appbar.dart';
 import 'package:recipes/widgets/empty_widget.dart' show EmptyWidget;
 import 'package:recipes/widgets/loading_widgets.dart';
+import 'package:recipes/widgets/snack_bar_widget.dart';
 
 const mainPagePadding = EdgeInsets.symmetric(horizontal: 16.0);
 
@@ -148,6 +149,9 @@ class _CollectionsViewState extends State<CollectionsView> {
   }
 
   void removeFromCollection(Meal meal) async {
-    context.read<CollectionsPageProvider>().remove(meal);
+    final result = await context.read<CollectionsPageProvider>().remove(meal);
+
+    if (!mounted) return;
+    showSnackBarWidget(context: context, message: result.message);
   }
 }
