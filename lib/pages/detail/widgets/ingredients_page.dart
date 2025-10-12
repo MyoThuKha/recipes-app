@@ -1,25 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:recipes/models/ingredient_model.dart';
-import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/widgets/dotted_border.dart';
 
-class IngredientsPage extends StatelessWidget {
-  const IngredientsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<DetailPageProvider>(
-      builder: (context, model, _) {
-        return Column(
-          children: List.generate(model.ingredients.length, (index) {
-            return IngredientTile(ingredient: model.ingredients[index]);
-          }),
-        );
-      },
-    );
-  }
-}
 
 class IngredientTile extends StatelessWidget {
   final IngredientModel ingredient;

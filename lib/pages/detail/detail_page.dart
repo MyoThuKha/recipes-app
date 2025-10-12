@@ -23,17 +23,10 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin{
 
-  late AnimationController _contentController;
 
 
   @override
   void initState() {
-    _contentController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2000),
-      reverseDuration: const Duration(milliseconds: 1000),
-    );
-    _contentController.forward();
     callAPIRequest();
     super.initState();
   }
@@ -66,9 +59,10 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                   ),
                   expandedHeight: context.screenSize.height / 3.5,
                   flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: const EdgeInsets.only(left: 70),
                     title: SafeArea(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.only(bottom: 10,right: 5),
                         child: FittedBox(
                           child: Text(
                             provider.meal?.strMeal ?? "",
@@ -103,37 +97,51 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
               sliver: SliverToBoxAdapter(
-                child: RippleTransition(
-                  controller: _contentController,
-                  center: Alignment.bottomRight,
-                  child: Consumer<DetailPageProvider>(
-                    builder: (context, provider, _) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 20,
-                        children: <Widget>[
-                          Text(
-                            provider.currentContent.name.toCapitalize(),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-
-                          // ContentPage(current: currentContent),
-                          switch (provider.currentContent) {
-                            Content.ingredients => const IngredientsPage(),
+                child: Consumer<DetailPageProvider>(
+                  builder: (context, provider, _) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 20,
+                      children: <Widget>[
+                        Text(
+                          provider.currentContent.name.toCapitalize(),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                                        
+                        // ContentPage(current: currentContent),
+                        AnimatedSwitcher(
+                          layoutBuilder: (currentChild, previousChildren) {
+                            return Stack(
+                              alignment: Alignment.topCenter,
+                              children: [...previousChildren, ?currentChild],
+                            );
+                          },
+                          duration: const Duration(milliseconds: 800),
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                          child: switch (provider.currentContent) {
+                            Content.ingredients => Column(
+                              children: provider.ingredients.map((e) => IngredientTile(ingredient: e)).toList(),
+                            ),
                             _ => Text(
                               provider.meal?.strInstructions ?? "",
                               style: GoogleFonts.inter(
-                                textStyle: context.theme.textTheme.bodyMedium,
+                                textStyle:
+                                    context.theme.textTheme.bodyMedium,
                                 color: context.colorScheme.onSurface.opaque(
                                   0.7,
                                 ),
                               ),
                             ),
                           },
-                        ],
-                      );
-                    },
-                  ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -171,13 +179,10 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
 
   @override
   void dispose() {
-    _contentController.dispose();
     super.dispose();
   }
 
   void onContentChanged(Content content) {
-    _contentController.reset();
     context.read<DetailPageProvider>().updateContent = content;
-    _contentController.forward();
   }
 }

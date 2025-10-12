@@ -6,13 +6,17 @@ import 'package:recipes/models/meal_detail_model.dart';
 import 'package:recipes/models/meal_list_model.dart';
 import 'package:recipes/models/response_model.dart';
 
+const version = String.fromEnvironment("version");
+const apiKey = String.fromEnvironment("key");
+const _path = "/api/json/$version/$apiKey";
 
 class NetworkManager {
   final baseUrl = "www.themealdb.com";
   static final shared = NetworkManager();
 
   Future<ResponseModel> getCategories() async {
-    const endpoint = "/api/json/v1/1/list.php";
+    const endpoint = "$_path/list.php";
+    print(endpoint);
     final uri = Uri(
       scheme: "https",
       host: baseUrl,
@@ -32,7 +36,7 @@ class NetworkManager {
   }
 
   Future<ResponseModel> getMealsByCategories(String category) async {
-    const endpoint = "/api/json/v1/1/filter.php";
+    const endpoint = "$_path/filter.php";
     final uri = Uri(
       scheme: "https",
       host: baseUrl,
@@ -49,7 +53,7 @@ class NetworkManager {
   }
 
   Future<ResponseModel> getMealDetail(String mealId) async {
-    const endpoint = "/api/json/v1/1/lookup.php";
+    const endpoint = "$_path/lookup.php";
     final uri = Uri(
       scheme: "https",
       host: baseUrl,
@@ -66,7 +70,7 @@ class NetworkManager {
   }
 
   Future<ResponseModel> getRandomMeal() async {
-    const endpoint = "/api/json/v1/1/random.php";
+    const endpoint = "$_path/random.php";
     // TODO extract same things
     final uri = Uri(
       scheme: "https",

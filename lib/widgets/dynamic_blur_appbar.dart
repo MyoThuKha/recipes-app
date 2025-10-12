@@ -9,6 +9,8 @@ class DynamicBlurAppbar extends StatefulWidget {
   final double scrollScaling;
   final double titleHeight;
   final double bottomHeight;
+  final double bottomSpacing;
+  final double collapsedRadius;
   final double blurSigma;
 
   final bool pinned;
@@ -21,6 +23,8 @@ class DynamicBlurAppbar extends StatefulWidget {
     this.floating = false,
     required this.titleHeight,
     required this.bottomHeight,
+    this.bottomSpacing = 10,
+    this.collapsedRadius = 15,
     this.scrollScaling = 0.5,
     this.blurSigma = 10,
     this.bottom,
@@ -105,7 +109,7 @@ class _DynamicBlurAppbarState extends State<DynamicBlurAppbar> {
         expandedTitleScale: 1,
         title: ClipRRect(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(_scrolledUnder ? 15 : 0),
+            bottom: Radius.circular(_scrolledUnder ? widget.collapsedRadius : 0),
           ),
           child: BackdropFilter(
             filter: ImageFilter.blur(
@@ -134,8 +138,10 @@ class _DynamicBlurAppbarState extends State<DynamicBlurAppbar> {
                       ),
 
                   Container(
-                    margin: const EdgeInsets.only(bottom: 5),
-                    height: widget.bottomHeight, child: widget.bottom),
+                    margin: EdgeInsets.only(bottom: widget.bottomSpacing),
+                    height: widget.bottomHeight,
+                    child: widget.bottom,
+                  ),
                 ],
               ),
             ),

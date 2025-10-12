@@ -1,7 +1,6 @@
 import 'package:basepack/basepack.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
@@ -71,29 +70,32 @@ class _DishesViewState extends State<DishesView> {
             ),
           ),
           // MARK: CHOICE SECTION
-          bottom: Consumer<HomePageProvider>(
-            builder: (context, model, _) {
-              return ListView.separated(
-                padding: mainPagePadding,
-                separatorBuilder: (context, index) => const SizedBox(width: 8),
-                scrollDirection: Axis.horizontal,
-                itemCount: model.categories.length,
-                itemBuilder: (context, index) {
-                  return AnimatedScrollViewItem(
-                    child: ChoiceWidget(
-                      index: index,
-                      activeIndex: currentIndex,
-                      label: model.categories[index],
-                      onClick: () {
-                        if (index == currentIndex) return;
-                        setState(() => currentIndex = index);
-                        model.getMealsByCategory(model.categories[index]);
-                      },
-                    ),
-                  );
-                },
-              );
-            },
+          bottom: Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: Consumer<HomePageProvider>(
+              builder: (context, model, _) {
+                return ListView.separated(
+                  padding: mainPagePadding,
+                  separatorBuilder: (context, index) => const SizedBox(width: 8),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: model.categories.length,
+                  itemBuilder: (context, index) {
+                    return AnimatedScrollViewItem(
+                      child: ChoiceWidget(
+                        index: index,
+                        activeIndex: currentIndex,
+                        label: model.categories[index],
+                        onClick: () {
+                          if (index == currentIndex) return;
+                          setState(() => currentIndex = index);
+                          model.getMealsByCategory(model.categories[index]);
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
 
