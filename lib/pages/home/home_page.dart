@@ -5,6 +5,7 @@ import 'package:recipes/pages/home/views/dishes_view.dart';
 import 'package:recipes/widgets/app_tab_bar.dart';
 import 'package:recipes/widgets/background_widget.dart';
 
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -56,3 +57,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
 }
+
+
+const bottomSpacing = SizedBox(height: 120);

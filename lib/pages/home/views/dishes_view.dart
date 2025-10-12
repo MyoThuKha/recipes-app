@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
+import 'package:recipes/pages/home/home_page.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/home_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
@@ -104,10 +105,11 @@ class _DishesViewState extends State<DishesView> {
         // MARK: MEAL GRID
         Consumer<HomePageProvider>(
           builder: (context, provider, _) {
+            const endSpacing = 250.0;
             if (provider.isLoading) {
               return const SliverFillRemaining(
                 hasScrollBody: false,
-                child: Center(child: GridViewLoading()),
+                child: Center(child: GridViewLoading(endSpacing: endSpacing)),
               );
             }
 
@@ -117,8 +119,9 @@ class _DishesViewState extends State<DishesView> {
                 child: Center(
                   child: EmptyWidget(
                     icon: AssetsIcons.spices,
-                    title: "Seem like our chef is out of town\n for this category.",
-                    endSpacing: 250,
+                    title:
+                        "Seem like our chef is out of town\n for this category.",
+                    endSpacing: endSpacing,
                   ),
                 ),
               );
@@ -152,7 +155,7 @@ class _DishesViewState extends State<DishesView> {
         ),
 
         // Spacing for bottom
-        const SliverToBoxAdapter(child: SizedBox(height: 60)),
+        const SliverToBoxAdapter(child: bottomSpacing),
       ],
     );
   }

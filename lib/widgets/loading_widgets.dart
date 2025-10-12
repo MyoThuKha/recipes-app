@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recipes/consts/assets_icons.dart';
 
 class GridViewLoading extends StatelessWidget {
-  const GridViewLoading({super.key});
+  final double endSpacing;
+  const GridViewLoading({super.key, this.endSpacing = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +26,16 @@ class GridViewLoading extends StatelessWidget {
 
           Text(
             "Preparing ...",
-            style: GoogleFonts.instrumentSerif(
-              textStyle: context.textTheme.bodyLarge,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              // fontFamily: "Fearless",
+            style: GoogleFonts.poppins(
+              textStyle: context.theme.textTheme.bodyMedium,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.5,
+              // fontStyle: FontStyle.italic,
             ),
           ),
+
+          SizedBox(height: endSpacing),
         ],
       ),
     );

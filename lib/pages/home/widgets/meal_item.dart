@@ -63,8 +63,8 @@ class MealItem extends StatelessWidget {
 
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: ()=> action.onClick(meal),
+                      child: TapAnimate(
+                        onClick: ()=> action.onClick(meal),
                         child: CircleAvatar(
                           child: Image.asset(
                             action.icon,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
+import 'package:recipes/pages/home/home_page.dart';
 import 'package:recipes/pages/home/widgets/meal_item.dart';
 import 'package:recipes/providers/collections_page_provider.dart';
 import 'package:recipes/styles/colors.dart';
@@ -59,7 +60,7 @@ class _CollectionsViewState extends State<CollectionsView> {
                   child: Image.asset(AssetsIcons.fridge, width: 35, height: 35),
                 ),
                 Text(
-                  "Your Collections",
+                  "Your Dishes",
                   style: context.theme.appBarTheme.titleTextStyle,
                 ),
               ],
@@ -96,10 +97,13 @@ class _CollectionsViewState extends State<CollectionsView> {
         // MARK: MEAL GRID
         Consumer<CollectionsPageProvider>(
           builder: (context, provider, _) {
+            const endSpacing = 200.0;
             if (provider.isLoading) {
               return const SliverFillRemaining(
                 hasScrollBody: false,
-                child: Center(child: GridViewLoading()),
+                child: Center(child: GridViewLoading(
+                  endSpacing: endSpacing,
+                )),
               );
             }
             if (provider.meals.isEmpty) {
@@ -110,7 +114,7 @@ class _CollectionsViewState extends State<CollectionsView> {
                     icon: AssetsIcons.dishDrying,
                     // title: "Nothing in your collection yet.",
                     title: "Very Clean Collection.\nReady to add some dishes.",
-                    endSpacing: 200,
+                    endSpacing: endSpacing,
                   ),
                 ),
               );
@@ -143,7 +147,7 @@ class _CollectionsViewState extends State<CollectionsView> {
         ),
 
         // Spacing for bottom
-        const SliverToBoxAdapter(child: SizedBox(height: 60)),
+        const SliverToBoxAdapter(child: bottomSpacing),
       ],
     );
   }

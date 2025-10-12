@@ -19,6 +19,7 @@ class HomePageProvider extends BaseProvider {
   String currCategory = "";
 
   Future<void> getCategories() async {
+    isLoading = true;
     final result = await NetworkManager.shared.getCategories();
 
     if (result is SuccessResponseModel) {
