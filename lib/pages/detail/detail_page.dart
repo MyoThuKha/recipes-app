@@ -66,13 +66,19 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                   ),
                   expandedHeight: context.screenSize.height / 3.5,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(
-                      provider.meal?.strMeal ?? "",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.end,
-                      style: context.theme.appBarTheme.titleTextStyle?.copyWith(
-                        color: Colors.white,
+                    title: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: FittedBox(
+                          child: Text(
+                            provider.meal?.strMeal ?? "",
+                            maxLines: 1,
+                            textAlign: TextAlign.end,
+                            style: context.theme.appBarTheme.titleTextStyle?.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     collapseMode: CollapseMode.parallax,
