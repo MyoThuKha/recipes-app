@@ -108,7 +108,7 @@ class _DishesViewState extends State<DishesView> with AutomaticKeepAliveClientMi
         // MARK: MEAL GRID
         Consumer<HomePageProvider>(
           builder: (context, provider, _) {
-            const endSpacing = 250.0;
+            const endSpacing = 200.0;
             if (provider.isLoading) {
               return const SliverFillRemaining(
                 hasScrollBody: false,
