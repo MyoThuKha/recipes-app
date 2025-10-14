@@ -24,7 +24,7 @@ class DishesView extends StatefulWidget {
   State<DishesView> createState() => _DishesViewState();
 }
 
-class _DishesViewState extends State<DishesView> {
+class _DishesViewState extends State<DishesView> with AutomaticKeepAliveClientMixin{
 
   int currentIndex = 0;
 
@@ -36,6 +36,7 @@ class _DishesViewState extends State<DishesView> {
 
   Future<void> callAPIRequest() async {
     final model = context.read<HomePageProvider>();
+    model.clearStates();
     await model.getCategories();
     model.loadAllLocalDishes();
     model.getMealsByCategory(model.categories[currentIndex]);
@@ -43,6 +44,8 @@ class _DishesViewState extends State<DishesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -168,4 +171,7 @@ class _DishesViewState extends State<DishesView> {
     if (!mounted) return;
     showSnackBarWidget(context: context, message: result.message);
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -16,7 +16,6 @@ class NetworkManager {
 
   Future<ResponseModel> getCategories() async {
     const endpoint = "$_path/list.php";
-    print(endpoint);
     final uri = Uri(
       scheme: "https",
       host: baseUrl,

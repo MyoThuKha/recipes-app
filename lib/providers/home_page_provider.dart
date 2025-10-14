@@ -13,10 +13,10 @@ class HomePageProvider extends BaseProvider {
   List<String> categories = [];
   List<Meal> meals = [];
   List<CollectionEntity> collections = [];
+  String currCategory = '';
 
   bool isLoading = false;
 
-  String currCategory = "";
 
   Future<void> getCategories() async {
     isLoading = true;
@@ -106,5 +106,13 @@ class HomePageProvider extends BaseProvider {
       status: Status.success,
       message: "Dish is now ready in your collection.",
     );
+  }
+
+
+  void clearStates() {
+    meals = [];
+    currCategory = '';
+    categories.clear();
+    collections.clear();
   }
 }
