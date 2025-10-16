@@ -9,7 +9,7 @@ void showSnackBarWidget({required BuildContext context, required String message}
       // behavior: SnackBarBehavior.floating,
       backgroundColor: context.theme.colorScheme.primary,
       shape: const RoundedSuperellipseBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: BorderRadius.vertical(top:  Radius.circular(30)),
       ),
       content: Text(
         message,
@@ -19,7 +19,7 @@ void showSnackBarWidget({required BuildContext context, required String message}
         ),
       ),
       // showCloseIcon: true,
-      padding: const EdgeInsets.only(top: 16, left: 25, right: 20),
+      padding: const EdgeInsets.only(top: 16, left: 25, right: 20, bottom: 16),
       // closeIconColor: context.theme.colorScheme.onSurface,
       duration: const Duration(seconds: 2),
     ),
