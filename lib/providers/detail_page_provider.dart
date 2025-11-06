@@ -8,6 +8,7 @@ import 'package:recipes/widgets/fab_btn.dart';
 class DetailPageProvider extends BaseProvider {
   MealDetail? meal;
   Content currentContent = Content.instructions;
+  List<String> tags = [];
   List<IngredientModel> ingredients = [];
 
 
@@ -16,7 +17,7 @@ class DetailPageProvider extends BaseProvider {
     notifyListeners();
   }
 
-  void getMealDetail(String id) async {
+  Future<void> getMealDetail(String id) async {
     clear();
     final result = await NetworkManager.shared.getMealDetail(id);
 
@@ -24,10 +25,17 @@ class DetailPageProvider extends BaseProvider {
       final data = result.data as MealDetailModel;
       meal = data.meals?[0];
       ingredients = data.meals?[0].ingredients ?? [];
+      extractTags(data.meals?[0].strTags ?? "");
     } else {
       failureCase(result);
     }
     notifyListeners();
+  }
+
+  void extractTags(String strVal) {
+    final list = strVal.split(",");
+    list.removeWhere((element) => element.isEmpty);
+    tags = list;
   }
 
   void getRandomMeal() async {

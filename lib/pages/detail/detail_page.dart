@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/extensions/str_extension.dart';
+import 'package:recipes/pages/detail/widgets/detail_actions_widget.dart';
 import 'package:recipes/pages/detail/widgets/ingredients_page.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:go_router/go_router.dart';
@@ -23,22 +24,20 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin{
 
-
-
   @override
   void initState() {
     callAPIRequest();
     super.initState();
   }
 
-  void callAPIRequest() {
+  Future<void> callAPIRequest() async {
     final provider = context.read<DetailPageProvider>();
     if (widget.mealId == "random") {
       provider.getRandomMeal();
       return;
     }
 
-    provider.getMealDetail(widget.mealId);
+    await provider.getMealDetail(widget.mealId);
   }
 
   @override
@@ -103,6 +102,8 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 20,
                       children: <Widget>[
+                        const DetailActionsWidget(),
+
                         Text(
                           provider.currentContent.name.toCapitalize(),
                           style: Theme.of(context).textTheme.titleMedium,
@@ -177,10 +178,6 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   void onContentChanged(Content content) {
     context.read<DetailPageProvider>().updateContent = content;

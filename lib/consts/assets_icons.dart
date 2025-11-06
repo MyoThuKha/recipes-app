@@ -12,4 +12,6 @@ class AssetsIcons {
   static const String trash = "$_path/trash.png";
   static const String dishDrying = "$_path/dish-drying.png";
   static const String spices = "$_path/spices.png";
+  static const String television = "$_path/vintage-television.png";
+  static const String tag = "$_path/tag.png";
 }
