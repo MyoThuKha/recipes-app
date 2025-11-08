@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/pages/landing/views/collections_landing_view.dart';
 import 'package:recipes/pages/landing/views/details_landing_view.dart';
+import 'package:recipes/pages/landing/views/done_landing_view.dart';
 import 'package:recipes/pages/landing/views/greet_landing_view.dart';
 import 'package:recipes/pages/landing/views/intro_landing_view.dart';
 import 'package:recipes/pages/landing/views/video_landing_view.dart';
@@ -20,6 +21,7 @@ const _pages = [
   CollectionsLandingView(),
   DetailsLandingView(),
   VideoLandingView(),
+  DoneLandingView(),
 ];
 
 class LandingPage extends StatefulWidget {
@@ -68,7 +70,7 @@ class _LandingPageState extends State<LandingPage> {
                     pageController: _pageController,
                     isLastPage: isLastPage,
                   ).animate().fadeIn(
-                    delay: const Duration(milliseconds: 1000),
+                    delay: const Duration(milliseconds: 2000),
                     duration: const Duration(milliseconds: 800),
                   ),
             ),
@@ -76,16 +78,19 @@ class _LandingPageState extends State<LandingPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: SafeArea(
-                child: SmoothPageIndicator(
-                  effect: ExpandingDotsEffect(
-                    dotWidth: 10,
-                    dotHeight: 10,
-                    spacing: 4,
-                    dotColor: context.colorScheme.primary.opaque(0.6),
-                    activeDotColor: context.colorScheme.primary,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: SmoothPageIndicator(
+                    effect: ExpandingDotsEffect(
+                      dotWidth: 10,
+                      dotHeight: 10,
+                      spacing: 4,
+                      dotColor: context.colorScheme.primary.opaque(0.6),
+                      activeDotColor: context.colorScheme.primary,
+                    ),
+                    controller: _pageController,
+                    count: _pages.length,
                   ),
-                  controller: _pageController,
-                  count: _pages.length,
                 ),
               ),
             ),

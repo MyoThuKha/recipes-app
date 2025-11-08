@@ -18,7 +18,7 @@ class VideoLandingView extends StatelessWidget {
               "Easily jump to the YouTube\nvideo tutorial for step-by-step\nguidance.",
           image: LandingImages.video,
           overlay: Positioned(
-            bottom: 170,
+            bottom: 150,
             right: 0,
             child: SvgPicture.asset(DoodlesImages.video, width: 100),
           ),

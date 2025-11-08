@@ -21,8 +21,8 @@ class LandingLayoutWidget extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Image.asset(image, width: 300).animate().fadeIn(
-                duration: const Duration(milliseconds: 3000),
+              Image.asset(image, width: 280).animate().fadeIn(
+                duration: const Duration(milliseconds: 2000),
                 curve: Curves.easeOut,
               ),
               overlay,

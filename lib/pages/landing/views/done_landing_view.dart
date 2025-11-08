@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/pages/landing/widgets/landing_layout_widget.dart';
 
-class GreetLandingView extends StatelessWidget {
-  const GreetLandingView({super.key});
+class DoneLandingView extends StatelessWidget {
+  const DoneLandingView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +10,9 @@ class GreetLandingView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: LandingLayoutWidget(
-          title: "Hello!",
-          description: "Welcome to my Recipes App. \n Let's get you started.",
+          title: "Done!",
+          description:
+              "You're all set and ready to explore the recipes.\n Hope you enjoy my first app.",
         ),
       ),
     );
