@@ -61,14 +61,16 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                     titlePadding: const EdgeInsets.only(left: 70),
                     title: SafeArea(
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10,right: 5),
-                        child: FittedBox(
-                          child: Text(
-                            provider.meal?.strMeal ?? "",
-                            maxLines: 1,
-                            textAlign: TextAlign.end,
-                            style: context.theme.appBarTheme.titleTextStyle?.copyWith(
-                              color: Colors.white,
+                        padding: const EdgeInsets.only(bottom: 10, right: 10),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: FittedBox(
+                            child: Text(
+                              provider.meal?.strMeal ?? "",
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              style: context.theme.appBarTheme.titleTextStyle
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                         ),

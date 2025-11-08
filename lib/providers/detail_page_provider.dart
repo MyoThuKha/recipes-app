@@ -1,8 +1,13 @@
+import 'package:collection/collection.dart';
+import 'package:recipes/entities/collection_entity.dart';
+import 'package:recipes/injector.dart';
 import 'package:recipes/models/ingredient_model.dart';
 import 'package:recipes/models/meal_detail_model.dart';
 import 'package:recipes/models/response_model.dart';
+import 'package:recipes/models/status_model.dart';
 import 'package:recipes/network/network_manager.dart';
 import 'package:recipes/providers/base_provider.dart';
+import 'package:recipes/storage/storage_manager.dart';
 import 'package:recipes/widgets/fab_btn.dart';
 
 class DetailPageProvider extends BaseProvider {
@@ -10,7 +15,6 @@ class DetailPageProvider extends BaseProvider {
   Content currentContent = Content.instructions;
   List<String> tags = [];
   List<IngredientModel> ingredients = [];
-
 
   set updateContent(Content content) {
     currentContent = content;
@@ -50,6 +54,37 @@ class DetailPageProvider extends BaseProvider {
       failureCase(result);
     }
     notifyListeners();
+  }
+
+
+  Future<StatusModel> addToCollection() async {
+    final collections = await getIt.get<StorageManager>().readAll<CollectionEntity>();
+
+    final existingEntity = collections.firstWhereOrNull(
+      (element) => element.idMeal == meal?.idMeal,
+    );
+
+    final newMeal = CollectionEntity(
+      id: existingEntity?.id ?? 0,
+      idMeal: meal?.idMeal,
+      strMeal: meal?.strMeal,
+      strMealThumb: meal?.strMealThumb,
+    );
+
+    await getIt.get<StorageManager>().update<CollectionEntity>(newMeal);
+
+    // meal existed
+    if (existingEntity != null) {
+      return SuccessModel(
+        status: Status.success,
+        message: "Already in collection. We updated it for you.",
+      );
+    }
+
+    return SuccessModel(
+      status: Status.success,
+      message: "Dish is now ready in your collection.",
+    );
   }
 
   void clear() {

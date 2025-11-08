@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
+import 'package:recipes/widgets/snack_bar_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DetailActionsWidget extends StatefulWidget {
@@ -66,7 +67,7 @@ class ActionWidget extends StatelessWidget {
         shape: StadiumBorder(
           side: BorderSide(
             width: 1,
-            color: context.colorScheme.surface.opaque(0.8),
+            color: context.colorScheme.surface.opaque(0.6),
           ),
         ),
       ),
@@ -81,6 +82,8 @@ class MainActionsGroup extends StatelessWidget {
   final void Function(bool) toggleTagsVisibility;
   const MainActionsGroup({super.key, required this.toggleTagsVisibility});
 
+  final iconsSize = 30.0;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<DetailPageProvider>(
@@ -88,21 +91,32 @@ class MainActionsGroup extends StatelessWidget {
         return ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            if (provider.meal?.strYoutube?.isNotEmpty ?? false)
-              TapAnimate(
-                onClick: () => openYouTube(provider.meal?.strYoutube ?? ""),
-                child: ActionWidget(
-                  child: Image.asset(AssetsIcons.television, width: 35),
-                ),
-              ),
 
             if (provider.tags.isNotEmpty)
               GestureDetector(
                 onTap: () => toggleTagsVisibility(true),
                 child: ActionWidget(
-                  child: Image.asset(AssetsIcons.tag, width: 35),
+                  child: Image.asset(AssetsIcons.tag, width: iconsSize),
                 ),
               ),
+
+            TapAnimate(
+              onClick: () => addToCollection(context),
+              child: ActionWidget(
+                child: Image.asset(AssetsIcons.fridge, width: iconsSize),
+              ),
+            ),
+
+
+            if (provider.meal?.strYoutube?.isNotEmpty ?? false)
+              TapAnimate(
+                onClick: () => openYouTube(provider.meal?.strYoutube ?? ""),
+                child: ActionWidget(
+                  child: Image.asset(AssetsIcons.television, width: iconsSize),
+                ),
+              ),
+
+
           ],
         );
       },
@@ -116,6 +130,15 @@ class MainActionsGroup extends StatelessWidget {
       // copy url to the clipboard
       await Clipboard.setData(ClipboardData(text: url));
     }
+  }
+
+  void addToCollection(BuildContext context) async {
+    showSnackBarWidget(context: context, message: "Adding...");
+
+    final result = await context.read<DetailPageProvider>().addToCollection();
+
+    if (!context.mounted) return;
+    showSnackBarWidget(context: context, message: result.message);
   }
 }
 
