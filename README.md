@@ -1,9 +1,6 @@
 # Recipes
 
 ![app preview image](./recipes.png)
-#### Video Demo:  <https://youtu.be/7yOq--PnGiM>
-
-
 
 #### Description:
 
@@ -74,6 +71,14 @@ Extensions files for build-in class and config files for network calls.
 - str_extension.dart file adds the functionality of capitalizing letters to the built-in string class.
 - network_manager.dart file handles all the API requests and can only be accepted with a singleton provided by the class itself. ViewModel (provider) will call this file and create network requests.
 
+
 ---
 
-And that's it. Thank you so much for reading. Happy coding and this is CS50.
+And that's it. Thank you so much for reading.
+
+
+
+### Credits ©️
+- [TheMealDB](https://www.themealdb.com/)
+- [@clarkcharlie03](https://x.com/clarkcharlie03)
+- [GoogleFonts](https://fonts.google.com/)
