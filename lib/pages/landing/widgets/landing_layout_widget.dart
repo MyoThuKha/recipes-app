@@ -1,0 +1,57 @@
+import 'package:basepack/basepack.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class LandingLayoutWidget extends StatelessWidget {
+  final String title;
+  final String description;
+  final String image;
+  final Widget overlay;
+  const LandingLayoutWidget({super.key, required this.title, required this.description, this.image = "", this.overlay = const SizedBox()});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      spacing: 20,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+
+        if (image.isNotEmpty)
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Image.asset(image, width: 300).animate().fadeIn(
+                duration: const Duration(milliseconds: 3000),
+                curve: Curves.easeOut,
+              ),
+              overlay,
+            ],
+          ),
+
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.dmSerifText(
+            height: 1,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          description,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            height: 1.8,
+            color: context.colorScheme.onSurface.opaque(0.9),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        // if (image.isNotEmpty)
+        //   const Spacer(),
+      ],
+    );
+  }
+}

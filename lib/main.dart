@@ -7,16 +7,23 @@ import 'package:provider/provider.dart';
 import 'package:recipes/injector.dart';
 import 'package:recipes/pages/detail/detail_page.dart';
 import 'package:recipes/pages/home/home_page.dart';
+import 'package:recipes/pages/landing/landing_page.dart';
 import 'package:recipes/providers/collections_page_provider.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:recipes/providers/home_page_provider.dart';
+import 'package:recipes/providers/landing_page_provider.dart';
+import 'package:recipes/storage/perferences_manager.dart';
 import 'package:recipes/storage/storage_manager.dart';
 import 'package:recipes/storage/storage_path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> setUpStorageService() async {
   try {
     final storagePath = await getIt<PathService>().getStoragePath();
+    final sharedPreferences = await SharedPreferences.getInstance();
+
     getIt<StorageManager>().init(storagePath);
+    getIt<PerferencesManager>().init(sharedPreferences);
   } catch (e) {
     if (kDebugMode) {
       print('Warning: StorageService failed to initialize: $e');
@@ -38,6 +45,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => LandingPageProvider(
+            perferencesManager: getIt<PerferencesManager>(),
+          ),
+        ),
         ChangeNotifierProvider(create: (context) => HomePageProvider()),
         ChangeNotifierProvider(create: (context) => CollectionsPageProvider()),
         ChangeNotifierProvider(create: (context) => DetailPageProvider()),
@@ -123,10 +135,42 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final router = GoRouter(routes: [
-  GoRoute(path: "/", builder: (context, state) => const HomePage(), routes: const []),
-  GoRoute(
-    path: "/detail/:mealId",
-    builder: (context, state) => DetailPage(mealId: state.pathParameters['mealId'] ?? ""),
-  ),
+final router = GoRouter(
+  initialLocation: '/',
+  
+
+  redirect: (context, state) {
+
+    final perferencesManager = getIt<PerferencesManager>();
+    final isFirstTime = perferencesManager.checkFirstTimeUser();
+    if (isFirstTime) {
+      return '/landing';
+    }
+    return null;
+  },
+  routes: [
+    GoRoute(
+      path: "/",
+      builder: (context, state) => const HomePage(),
+      routes: const [],
+       pageBuilder: (context, state) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: const HomePage(),
+          transitionDuration: const Duration(milliseconds: 800),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: "/landing",
+      builder: (context, state) => const LandingPage(),
+    ),
+    GoRoute(
+      path: "/detail/:mealId",
+      builder: (context, state) =>
+          DetailPage(mealId: state.pathParameters['mealId'] ?? ""),
+    ),
 ]);

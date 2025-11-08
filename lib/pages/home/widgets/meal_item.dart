@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recipes/consts/emoji_icons.dart';
+import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/models/meal_list_model.dart';
 
 
@@ -32,7 +32,7 @@ class MealItem extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Stack(
                   children: [
                     // Image
@@ -43,19 +43,21 @@ class MealItem extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: CachedNetworkImage(
                         imageUrl: meal.strMealThumb ?? "",
-                        // imageUrl: '',
                         width: double.infinity,
                         fit: BoxFit.cover,
                         color: Colors.black.withValues(alpha: 0.3),
                         colorBlendMode: BlendMode.darken,
-                        placeholder: (context, url) =>
-                            Container(color: Colors.grey[300]),
+                        placeholder: (context, url) => Container(
+                          color: context.colorScheme.inversePrimary,
+                        ),
                         errorWidget: (context, url, error) => Container(
-                          color: Colors.grey[300],
+                          // color: Colors.grey[300],
+                          color: context.colorScheme.inversePrimary,
                           alignment: Alignment.center,
-                          child: const Text(
-                            EmojiIcons.pan,
-                            style: TextStyle(fontSize: 40),
+                          child: Image.asset(
+                            AssetsIcons.diningTable,
+                            width: 70,
+                            semanticLabel: action.label,
                           ),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:recipes/storage/perferences_manager.dart';
 import 'package:recipes/storage/storage_manager.dart';
 import 'package:recipes/storage/storage_path.dart';
 
@@ -9,4 +10,5 @@ void setupLocator() {
   // Example:
   getIt.registerLazySingleton<PathService>(() => const PathService());
   getIt.registerLazySingleton<StorageManager>(() => StorageManager());
+  getIt.registerLazySingleton<PerferencesManager>(() => PerferencesManager());
 }
