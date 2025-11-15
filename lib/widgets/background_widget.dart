@@ -8,12 +8,11 @@ class BackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage(
-          "images/background.png",
+        gradient: LinearGradient(
+          begin: .topLeft,
+          end: .bottomRight,
+          colors: [Color(0xffC57BFF), Colors.white],
         ),
-        fit: BoxFit.fill,
-      )
       ),
       child: child,
     );
