@@ -60,9 +60,9 @@ class ActionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(minWidth: 80),
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      alignment: Alignment.center,
+      margin: const .only(right: 8),
+      padding: const .symmetric(horizontal: 20),
+      alignment: .center,
       decoration: ShapeDecoration(
         shape: StadiumBorder(
           side: BorderSide(
@@ -89,7 +89,7 @@ class MainActionsGroup extends StatelessWidget {
     return Consumer<DetailPageProvider>(
       builder: (context, provider, _) {
         return ListView(
-          scrollDirection: Axis.horizontal,
+          scrollDirection: .horizontal,
           children: [
 
             if (provider.tags.isNotEmpty)
@@ -155,7 +155,7 @@ class TagsLists extends StatelessWidget {
     return Consumer<DetailPageProvider>(
       builder: (context, provider, _) {
         return ListView(
-          scrollDirection: Axis.horizontal,
+          scrollDirection: .horizontal,
           children:
               [
                     GestureDetector(
@@ -176,7 +176,7 @@ class TagsLists extends StatelessWidget {
                           style: TextStyle(
                             color: context.colorScheme.tertiary,
                             fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: .bold,
                           ),
                         ),
                       ),

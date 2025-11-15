@@ -51,8 +51,8 @@ class _CollectionsViewState extends State<CollectionsView> {
             padding: mainPagePadding,
             child: Row(
               spacing: 12,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: .start,
+              crossAxisAlignment: .center,
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -101,9 +101,7 @@ class _CollectionsViewState extends State<CollectionsView> {
             if (provider.isLoading) {
               return const SliverFillRemaining(
                 hasScrollBody: false,
-                child: Center(child: GridViewLoading(
-                  endSpacing: endSpacing,
-                )),
+                child: Center(child: GridViewLoading(endSpacing: endSpacing)),
               );
             }
             if (provider.meals.isEmpty) {

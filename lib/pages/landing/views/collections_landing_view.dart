@@ -11,10 +11,11 @@ class CollectionsLandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const .symmetric(horizontal: 20),
         child: LandingLayoutWidget(
           title: "Your Go-To\nFavorites",
-          description: "Keep the dishes you love in\nyour personal library, ready\nwhenever you are.",
+          description:
+              "Keep the dishes you love in\nyour personal library, ready\nwhenever you are.",
           image: LandingImages.collections,
           overlay: Positioned(
             bottom: 30,

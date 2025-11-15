@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           // children: const [Text("Dish View"), Text("Collections View")],
 
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        floatingActionButtonLocation: .startFloat,
         floatingActionButton: AppTabBar(
           height: 75,
           tabController: _tabController,

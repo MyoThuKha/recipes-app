@@ -9,7 +9,7 @@ class IntroLandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: .symmetric(horizontal: 20),
         child: LandingLayoutWidget(
           title: "Discover culinary delights",
           description:

@@ -11,7 +11,7 @@ class DetailsLandingView extends StatelessWidget {
   Widget build(BuildContext context) {
         return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const .symmetric(horizontal: 20),
         child: LandingLayoutWidget(
           title: "Cook With Clarity",
           description:

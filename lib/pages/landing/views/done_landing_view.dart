@@ -8,7 +8,7 @@ class DoneLandingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: .symmetric(horizontal: 20),
         child: LandingLayoutWidget(
           title: "Done!",
           description:

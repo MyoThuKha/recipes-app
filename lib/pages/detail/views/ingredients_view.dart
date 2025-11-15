@@ -14,11 +14,11 @@ class IngredientTile extends StatelessWidget {
         : Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
+                padding: const .symmetric(
                   horizontal: 8,
                   vertical: 18,
                 ),
-                width: double.infinity,
+                width: .infinity,
                 child: Text(ingredient.name),
               ),
 
@@ -29,7 +29,7 @@ class IngredientTile extends StatelessWidget {
                   dashWidth: 5,
                   dashHeight: 1.5,
                 ),
-                child: const SizedBox(height: 0, width: double.infinity),
+                child: const SizedBox(height: 0, width: .infinity),
               ),
             ],
           );

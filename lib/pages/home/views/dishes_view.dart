@@ -59,8 +59,8 @@ class _DishesViewState extends State<DishesView> with AutomaticKeepAliveClientMi
             padding: mainPagePadding,
             child: Row(
               spacing: 12,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: .start,
+              crossAxisAlignment: .center,
               children: [
                 CircleBtn(
                   background: AppColors.orange,
@@ -75,13 +75,13 @@ class _DishesViewState extends State<DishesView> with AutomaticKeepAliveClientMi
           ),
           // MARK: CHOICE SECTION
           bottom: Padding(
-            padding: const EdgeInsets.only(bottom: 0),
+            padding: const .only(bottom: 0),
             child: Consumer<HomePageProvider>(
               builder: (context, model, _) {
                 return ListView.separated(
                   padding: mainPagePadding,
                   separatorBuilder: (context, index) => const SizedBox(width: 8),
-                  scrollDirection: Axis.horizontal,
+                  scrollDirection: .horizontal,
                   itemCount: model.categories.length,
                   itemBuilder: (context, index) {
                     return AnimatedScrollViewItem(

@@ -6,10 +6,12 @@
 
 Recipes App is a mobile app designed to make cooking easier and more enjoyable. With this app, we can find various delicious recipes, view detailed cooking instructions, and easily switch to a list of ingredients needed for each dish.
 
+
+#### Background
 I love creating mobile apps, but having to create an app with two codebases isn't fun at all (at least for me). That's why Flutter is my go-to language for this project as my project is simple and no need for more complex features. It is a fun and simple project for me and a useful project as I love cooking in my free time. I designed the app UI in Figma.
 Here is a brief structure of my project and how I created the app using MVVM.
 
-### API for Meals
+### Resources
 [TheMealDB](https://www.themealdb.com/)
 
 ### View
@@ -62,7 +64,6 @@ Custom widgets that can be used by the pages inside apps like buttons and appbar
 
 ### animations
 Animations widgets for reusable animation throughout the app.
-There are two animation files for this app. 
 - opacity_animation.dart for building animation with fade in effect and 
 - scale_animation.dart for on-click bounce effect.
 
@@ -70,6 +71,8 @@ There are two animation files for this app.
 Extensions files for build-in class and config files for network calls.
 - str_extension.dart file adds the functionality of capitalizing letters to the built-in string class.
 - network_manager.dart file handles all the API requests and can only be accepted with a singleton provided by the class itself. ViewModel (provider) will call this file and create network requests.
+- storage_manager.dart file handles all the storage calls and can only be accepted with a singleton provided by the class itself. ViewModel (provider) will call this file and create storage requests.
+- preference_manager.dart file handles all the perference related calls (e.g. first time user checks, light/dark mode, language, etc.) via shared_preferences. App will call this file and create preference requests.
 
 
 ---

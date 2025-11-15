@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:recipes/consts/assets_icons.dart';
 import 'package:recipes/extensions/str_extension.dart';
 import 'package:recipes/pages/detail/widgets/detail_actions_widget.dart';
-import 'package:recipes/pages/detail/widgets/ingredients_page.dart';
+import 'package:recipes/pages/detail/views/ingredients_view.dart';
 import 'package:recipes/providers/detail_page_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recipes/widgets/app_buttons.dart';
@@ -22,8 +22,8 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin{
-
+class _DetailPageState extends State<DetailPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     callAPIRequest();
@@ -58,17 +58,17 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                   ),
                   expandedHeight: context.screenSize.height / 3.5,
                   flexibleSpace: FlexibleSpaceBar(
-                    titlePadding: const EdgeInsets.only(left: 70),
+                    titlePadding: const .only(left: 70),
                     title: SafeArea(
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, right: 10),
+                        padding: const .only(bottom: 10, right: 10),
                         child: Align(
-                          alignment: Alignment.bottomRight,
+                          alignment: .bottomRight,
                           child: FittedBox(
                             child: Text(
                               provider.meal?.strMeal ?? "",
                               maxLines: 1,
-                              textAlign: TextAlign.end,
+                              textAlign: .end,
                               style: context.theme.appBarTheme.titleTextStyle
                                   ?.copyWith(color: Colors.white),
                             ),
@@ -76,13 +76,13 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-                    collapseMode: CollapseMode.parallax,
+                    collapseMode: .parallax,
                     background: CachedNetworkImage(
                       imageUrl: provider.meal?.strMealThumb ?? "",
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+                      width: .infinity,
+                      fit: .cover,
                       color: Colors.black.withValues(alpha: 0.4),
-                      colorBlendMode: BlendMode.darken,
+                      colorBlendMode: .darken,
                       placeholder: (context, url) =>
                           Container(color: context.colorScheme.secondary),
 
@@ -96,12 +96,12 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
 
             // Info
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+              padding: const .fromLTRB(16, 30, 16, 0),
               sliver: SliverToBoxAdapter(
                 child: Consumer<DetailPageProvider>(
                   builder: (context, provider, _) {
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: .start,
                       spacing: 20,
                       children: <Widget>[
                         const DetailActionsWidget(),
@@ -110,12 +110,12 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                           provider.currentContent.name.toCapitalize(),
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
-                                        
+
                         // ContentPage(current: currentContent),
                         AnimatedSwitcher(
                           layoutBuilder: (currentChild, previousChildren) {
                             return Stack(
-                              alignment: Alignment.topCenter,
+                              alignment: .topCenter,
                               children: [...previousChildren, ?currentChild],
                             );
                           },
@@ -127,21 +127,22 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                             );
                           },
                           child: switch (provider.currentContent) {
-                            Content.ingredients => Column(
-                              children: provider.ingredients.map((e) => IngredientTile(ingredient: e)).toList(),
+                            .ingredients => Column(
+                              children: provider.ingredients
+                                  .map((e) => IngredientTile(ingredient: e))
+                                  .toList(),
                             ),
                             _ => Text(
                               provider.meal?.strInstructions ?? "",
                               style: GoogleFonts.inter(
-                                textStyle:
-                                    context.theme.textTheme.bodyMedium,
+                                textStyle: context.theme.textTheme.bodyMedium,
                                 color: context.colorScheme.onSurface.opaque(
                                   0.7,
                                 ),
                               ),
                             ),
                           },
-                        )
+                        ),
                       ],
                     );
                   },
@@ -159,18 +160,14 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
               current: provider.currentContent,
               items: [
                 FabItem(
-                  value: Content.instructions,
+                  value: .instructions,
                   onClick: onContentChanged,
                   child: const Icon(Icons.abc, color: Colors.white, size: 40),
                 ),
                 FabItem(
-                  value: Content.ingredients,
+                  value: .ingredients,
                   onClick: onContentChanged,
-                  child: Image.asset(
-                    AssetsIcons.carrot,
-                    width: 30,
-                    height: 30,
-                  ),
+                  child: Image.asset(AssetsIcons.carrot, width: 30, height: 30),
                 ),
               ],
             );
@@ -179,7 +176,6 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
       ),
     );
   }
-
 
   void onContentChanged(Content content) {
     context.read<DetailPageProvider>().updateContent = content;

@@ -64,7 +64,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
 
             Align(
-              alignment: AlignmentGeometry.topRight,
+              alignment: .topRight,
               child:
                   BottomControlBar(
                     pageController: _pageController,
@@ -76,10 +76,10 @@ class _LandingPageState extends State<LandingPage> {
             ),
 
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: .bottomCenter,
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: const .only(bottom: 8.0),
                   child: SmoothPageIndicator(
                     effect: ExpandingDotsEffect(
                       dotWidth: 10,
@@ -111,9 +111,9 @@ class BottomControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const .symmetric(horizontal: 20),
         child: TextButton.icon(
-          iconAlignment: IconAlignment.end,
+          iconAlignment: .end,
           icon: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (child, animation) =>
@@ -133,9 +133,9 @@ class BottomControlBar extends StatelessWidget {
             textStyle: WidgetStatePropertyAll(
               GoogleFonts.dmSerifText(
                 fontSize: 16,
-                fontStyle: FontStyle.italic,
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w500,
+                fontStyle: .italic,
+                decoration: .underline,
+                fontWeight: .w500,
               ),
             ),
           ),

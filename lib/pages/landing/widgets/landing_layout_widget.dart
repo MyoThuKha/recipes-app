@@ -8,15 +8,20 @@ class LandingLayoutWidget extends StatelessWidget {
   final String description;
   final String image;
   final Widget overlay;
-  const LandingLayoutWidget({super.key, required this.title, required this.description, this.image = "", this.overlay = const SizedBox()});
+  const LandingLayoutWidget({
+    super.key,
+    required this.title,
+    required this.description,
+    this.image = "",
+    this.overlay = const SizedBox(),
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 20,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: .center,
       children: [
-
         if (image.isNotEmpty)
           Stack(
             clipBehavior: Clip.none,
@@ -31,21 +36,21 @@ class LandingLayoutWidget extends StatelessWidget {
 
         Text(
           title,
-          textAlign: TextAlign.center,
+          textAlign: .center,
           style: GoogleFonts.dmSerifText(
             height: 1,
             fontSize: 28,
-            fontWeight: FontWeight.bold,
+            fontWeight: .bold,
           ),
         ),
         Text(
           description,
-          textAlign: TextAlign.center,
+          textAlign: .center,
           style: GoogleFonts.inter(
             fontSize: 13,
             height: 1.8,
             color: context.colorScheme.onSurface.opaque(0.9),
-            fontWeight: FontWeight.w500,
+            fontWeight: .w500,
           ),
         ),
 

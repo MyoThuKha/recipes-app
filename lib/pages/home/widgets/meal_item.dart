@@ -28,7 +28,7 @@ class MealItem extends StatelessWidget {
       },
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(4),
+          padding: const .all(4),
           child: Column(
             children: [
               Expanded(
@@ -38,22 +38,22 @@ class MealItem extends StatelessWidget {
                     // Image
                     Card(
                       shape: RoundedSuperellipseBorder(
-                        borderRadius: BorderRadius.circular(26),
+                        borderRadius: .circular(26),
                       ),
-                      clipBehavior: Clip.antiAlias,
+                      clipBehavior: .antiAlias,
                       child: CachedNetworkImage(
                         imageUrl: meal.strMealThumb ?? "",
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                        width: .infinity,
+                        fit: .cover,
                         color: Colors.black.withValues(alpha: 0.3),
-                        colorBlendMode: BlendMode.darken,
+                        colorBlendMode: .darken,
                         placeholder: (context, url) => Container(
                           color: context.colorScheme.inversePrimary,
                         ),
                         errorWidget: (context, url, error) => Container(
                           // color: Colors.grey[300],
                           color: context.colorScheme.inversePrimary,
-                          alignment: Alignment.center,
+                          alignment: .center,
                           child: Image.asset(
                             AssetsIcons.diningTable,
                             width: 70,
@@ -64,9 +64,9 @@ class MealItem extends StatelessWidget {
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const .all(8.0),
                       child: TapAnimate(
-                        onClick: ()=> action.onClick(meal),
+                        onClick: () => action.onClick(meal),
                         child: CircleAvatar(
                           child: Image.asset(
                             action.icon,
@@ -82,16 +82,16 @@ class MealItem extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const .symmetric(horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: .spaceBetween,
                     children: [
                       Expanded(
                         child: Text(
                           meal.strMeal ?? "",
                           maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
+                          overflow: .ellipsis,
+                          textAlign: .center,
                           style: GoogleFonts.inter(
                             textStyle: context.textTheme.labelMedium,
                             height: 1.5,
